@@ -50,4 +50,4 @@ and generate reports to get insights into your spending habits.
 
 ## Licence
 
-This Work is licensed under GNU General Public License Version 3.
+This Work is licensed under [GNU General Public License Version 3](LICENSE).
