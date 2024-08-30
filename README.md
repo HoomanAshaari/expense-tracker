@@ -48,6 +48,10 @@ and generate reports to get insights into your spending habits.
 
 ## 📔 How to use?
 
+## TODOs:
+
+- Completely implement support for timezones
+
 ## Licence
 
 This Work is licensed under [GNU General Public License Version 3](LICENSE).
