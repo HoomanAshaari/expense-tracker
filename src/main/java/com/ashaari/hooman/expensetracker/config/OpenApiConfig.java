@@ -13,12 +13,15 @@ public class OpenApiConfig {
     private String title;
     @Value("${application.description}")
     private String description;
+    @Value("${application.version}")
+    private String version;
 
     @Bean
     public Info info() {
         return new Info()
                 .title(title)
-                .description(description);
+                .description(description)
+                .version(version);
     }
 
     @Bean
