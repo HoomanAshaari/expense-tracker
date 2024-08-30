@@ -15,10 +15,16 @@
 	<description>A system that allows users to manage their finances, including tracking expenses, budgeting, and setting financial goals</description>
 	<url/>
 	<licenses>
-		<license/>
+		<license>
+			<name>GNU General Public License Version 3</name>
+			<url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+		</license>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<name>Hooman Ashaari</name>
+			<email>ashaari.hooman@gmail.com</email>
+		</developer>
 	</developers>
 	<scm>
 		<connection/>
