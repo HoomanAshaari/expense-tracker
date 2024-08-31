@@ -3,6 +3,7 @@ package com.ashaari.hooman.expensetracker.api.restcontroller;
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
+import com.ashaari.hooman.expensetracker.common.exception.business.CategoryNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -55,4 +56,24 @@ class ExpenseControllerUTest {
         assertEquals("10", expenseResponseDto.id());
         verify(expenseService, times(1)).addExpense(justHadACoffee);
     }
+
+    @Test
+    @SneakyThrows
+    void addExpense_givenNewExpenseWithNotExistingCategory_returnsBadRequest() {
+        ExpenseRequestDto homeToWorkCab =
+                new ExpenseRequestDto(BigDecimal.TEN, "Home to work cab", "2", LocalDateTime.now());
+        String requestBody = objectMapper.writeValueAsString(
+                homeToWorkCab);
+        given(expenseService.addExpense(homeToWorkCab)).willThrow(new CategoryNotFoundException());
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/expense-tracker/api/expenses")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestBody))
+                .andExpect(status().is4xxClientError());
+
+        verify(expenseService, times(1)).addExpense(homeToWorkCab);
+    }
+
+
 }
