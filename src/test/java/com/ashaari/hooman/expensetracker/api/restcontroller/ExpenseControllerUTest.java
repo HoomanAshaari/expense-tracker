@@ -3,7 +3,7 @@ package com.ashaari.hooman.expensetracker.api.restcontroller;
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
-import com.ashaari.hooman.expensetracker.common.exception.business.CategoryNotFoundException;
+import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
