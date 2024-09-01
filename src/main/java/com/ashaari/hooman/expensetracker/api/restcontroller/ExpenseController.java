@@ -32,7 +32,7 @@ public class ExpenseController {
 
     @GetMapping("/{id}")
     public ExpenseResponseDto getExpense(@PathVariable String id) {
-        return expenseService.getById(id);
+        return expenseService.getExpense(id);
     }
 
 }

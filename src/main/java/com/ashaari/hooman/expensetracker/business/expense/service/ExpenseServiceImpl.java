@@ -14,7 +14,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public ExpenseResponseDto getById(String id) {
+    public ExpenseResponseDto getExpense(String id) {
         return null;
     }
 

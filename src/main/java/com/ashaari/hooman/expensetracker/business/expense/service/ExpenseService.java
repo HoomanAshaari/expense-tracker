@@ -3,6 +3,7 @@ package com.ashaari.hooman.expensetracker.business.expense.service;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
+import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
 
 public interface ExpenseService {
 
@@ -19,9 +20,8 @@ public interface ExpenseService {
      *
      * @param id expense identifier
      * @return found expense, or throws not found exception
-     * @throws {@link com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException}
-     *                if resource doesn't exist
+     * @throws ExpenseNotFoundException if resource doesn't exist
      */
-    ExpenseResponseDto getById(String id);
+    ExpenseResponseDto getExpense(String id);
 
 }

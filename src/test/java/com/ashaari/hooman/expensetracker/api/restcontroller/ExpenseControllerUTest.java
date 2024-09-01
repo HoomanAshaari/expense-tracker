@@ -5,6 +5,7 @@ import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
+import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -82,7 +83,7 @@ class ExpenseControllerUTest {
     void getExpense_givenExistingExpenseId_returnsExpense() {
         ExpenseResponseDto expectedExpense = new ExpenseResponseDto(
                 "1", BigDecimal.ONE, "Water", "10", LocalDateTime.now());
-        given(expenseService.getById("1")).willReturn(expectedExpense);
+        given(expenseService.getExpense("1")).willReturn(expectedExpense);
 
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.get(EXPENSES_ENDPOINT + "/{id}", "1")
@@ -93,8 +94,21 @@ class ExpenseControllerUTest {
         ExpenseResponseDto actualExpense = objectMapper.readValue(
                 result.getResponse().getContentAsString(), ExpenseResponseDto.class
         );
-        verify(expenseService, times(1)).getById("1");
+        verify(expenseService, times(1)).getExpense("1");
         assertEquals(expectedExpense, actualExpense);
+    }
+
+    @Test
+    @SneakyThrows
+    void getExpense_givenNonExistingExpenseId_returnsNotFound() {
+        given(expenseService.getExpense("2")).willThrow(new ExpenseNotFoundException());
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.get(EXPENSES_ENDPOINT + "/{id}", "2")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotFound());
+
+        verify(expenseService, times(1)).getExpense("2");
     }
 
 }
