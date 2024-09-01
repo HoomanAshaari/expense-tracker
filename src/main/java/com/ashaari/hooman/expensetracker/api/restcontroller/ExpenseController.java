@@ -5,6 +5,7 @@ import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
+import com.ashaari.hooman.expensetracker.common.dto.ExpenseUpdateDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -39,6 +40,11 @@ public class ExpenseController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeExpense(@PathVariable String id) {
         expenseService.removeExpense(id);
+    }
+
+    @PatchMapping
+    public ExpenseResponseDto updateExpense(@RequestBody @Valid ExpenseUpdateDto expenseUpdateDto) {
+        return null;
     }
 
 }
