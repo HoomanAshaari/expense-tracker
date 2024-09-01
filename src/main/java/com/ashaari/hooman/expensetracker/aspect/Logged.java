@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * happen) will be logged)
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target(ElementType.TYPE)
 public @interface Logged {
 
 }
