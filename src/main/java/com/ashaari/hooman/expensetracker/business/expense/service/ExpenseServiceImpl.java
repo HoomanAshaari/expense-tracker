@@ -18,4 +18,9 @@ public class ExpenseServiceImpl implements ExpenseService {
         return null;
     }
 
+    @Override
+    public void removeExpense(String id) {
+
+    }
+
 }

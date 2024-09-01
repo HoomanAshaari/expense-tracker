@@ -119,6 +119,8 @@ class ExpenseControllerUTest {
                 .perform(MockMvcRequestBuilders.delete(EXPENSES_ENDPOINT + "/{id}", "1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNoContent());
+
+        verify(expenseService, times(1)).removeExpense("1");
     }
 
 }

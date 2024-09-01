@@ -38,7 +38,7 @@ public class ExpenseController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeExpense(@PathVariable String id) {
-
+        expenseService.removeExpense(id);
     }
 
 }

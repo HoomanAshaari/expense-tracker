@@ -16,7 +16,7 @@ public interface ExpenseService {
     AddExpenseResponseDto addExpense(ExpenseRequestDto expenseRequestDto);
 
     /**
-     * Finds Expense by ID.
+     * Finds expense by ID.
      *
      * @param id expense identifier
      * @return found expense, or throws not found exception
@@ -24,4 +24,10 @@ public interface ExpenseService {
      */
     ExpenseResponseDto getExpense(String id);
 
+    /**
+     * Removes expense by ID.
+     *
+     * @param id expense to be deleted
+     */
+    void removeExpense(String id);
 }
