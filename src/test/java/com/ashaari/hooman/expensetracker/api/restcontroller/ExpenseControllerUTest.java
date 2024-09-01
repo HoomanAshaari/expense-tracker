@@ -3,6 +3,7 @@ package com.ashaari.hooman.expensetracker.api.restcontroller;
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
+import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -27,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ExpenseController.class)
 class ExpenseControllerUTest {
 
+    public static final String EXPENSES_ENDPOINT = "/expense-tracker/api/expenses";
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -66,7 +69,7 @@ class ExpenseControllerUTest {
                 homeToWorkCab);
         given(expenseService.addExpense(homeToWorkCab)).willThrow(new CategoryNotFoundException());
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/expense-tracker/api/expenses")
+        this.mockMvc.perform(MockMvcRequestBuilders.post(EXPENSES_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(requestBody))
@@ -76,8 +79,23 @@ class ExpenseControllerUTest {
     }
 
     @Test
+    @SneakyThrows
     void getExpense_givenExistingExpenseId_returnsExpense() {
+        ExpenseResponseDto expectedExpense = new ExpenseResponseDto(
+                "1", BigDecimal.ONE, "Water", "10", LocalDateTime.now());
+        given(expenseService.findExpense("1")).willReturn(Optional.of(expectedExpense));
 
+        MvcResult result = this.mockMvc
+                .perform(MockMvcRequestBuilders.get(EXPENSES_ENDPOINT + "/{id}", "1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ExpenseResponseDto actualExpense = objectMapper.readValue(
+                result.getResponse().getContentAsString(), ExpenseResponseDto.class
+        );
+        verify(expenseService, times(1)).findExpense("1");
+        assertEquals(expectedExpense, actualExpense);
     }
 
 }
