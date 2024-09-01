@@ -2,6 +2,7 @@ package com.ashaari.hooman.expensetracker.api.restcontroller;
 
 import com.ashaari.hooman.expensetracker.aspect.Logged;
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
+import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +26,7 @@ public class ExpenseController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(description = "Adds a new expense")
-    public ExpenseResponseDto addExpense(@RequestBody @Valid ExpenseRequestDto expenseRequestDto) {
+    public AddExpenseResponseDto addExpense(@RequestBody @Valid ExpenseRequestDto expenseRequestDto) {
         return expenseService.addExpense(expenseRequestDto);
     }
 

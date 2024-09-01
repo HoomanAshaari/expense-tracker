@@ -1,8 +1,8 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
+import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
-import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -43,7 +43,7 @@ class ExpenseControllerUTest {
         String requestBody = objectMapper.writeValueAsString(
                 justHadACoffee);
 
-        given(expenseService.addExpense(justHadACoffee)).willReturn(new ExpenseResponseDto("10"));
+        given(expenseService.addExpense(justHadACoffee)).willReturn(new AddExpenseResponseDto("10"));
         MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.post("/expense-tracker/api/expenses")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -51,9 +51,9 @@ class ExpenseControllerUTest {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        ExpenseResponseDto expenseResponseDto = objectMapper.readValue(
-                result.getResponse().getContentAsString(), ExpenseResponseDto.class);
-        assertEquals("10", expenseResponseDto.id());
+        AddExpenseResponseDto addExpenseResponseDto = objectMapper.readValue(
+                result.getResponse().getContentAsString(), AddExpenseResponseDto.class);
+        assertEquals("10", addExpenseResponseDto.id());
         verify(expenseService, times(1)).addExpense(justHadACoffee);
     }
 
