@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -83,7 +82,7 @@ class ExpenseControllerUTest {
     void getExpense_givenExistingExpenseId_returnsExpense() {
         ExpenseResponseDto expectedExpense = new ExpenseResponseDto(
                 "1", BigDecimal.ONE, "Water", "10", LocalDateTime.now());
-        given(expenseService.findExpense("1")).willReturn(Optional.of(expectedExpense));
+        given(expenseService.getById("1")).willReturn(expectedExpense);
 
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.get(EXPENSES_ENDPOINT + "/{id}", "1")
@@ -94,7 +93,7 @@ class ExpenseControllerUTest {
         ExpenseResponseDto actualExpense = objectMapper.readValue(
                 result.getResponse().getContentAsString(), ExpenseResponseDto.class
         );
-        verify(expenseService, times(1)).findExpense("1");
+        verify(expenseService, times(1)).getById("1");
         assertEquals(expectedExpense, actualExpense);
     }
 

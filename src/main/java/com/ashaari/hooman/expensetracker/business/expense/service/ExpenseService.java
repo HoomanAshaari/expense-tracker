@@ -4,12 +4,11 @@ import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
 
-import java.util.Optional;
-
 public interface ExpenseService {
 
     /**
      * Adds a new expense.
+     *
      * @param expenseRequestDto expense to be added
      * @return added expense id
      */
@@ -17,9 +16,12 @@ public interface ExpenseService {
 
     /**
      * Finds Expense by ID.
+     *
      * @param id expense identifier
-     * @return found expense or nothing
+     * @return found expense, or throws not found exception
+     * @throws {@link com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException}
+     *                if resource doesn't exist
      */
-    Optional<ExpenseResponseDto> findExpense(String id);
+    ExpenseResponseDto getById(String id);
 
 }
