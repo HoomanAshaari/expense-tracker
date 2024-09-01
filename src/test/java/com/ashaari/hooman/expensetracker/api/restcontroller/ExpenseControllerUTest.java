@@ -4,6 +4,7 @@ import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
+import com.ashaari.hooman.expensetracker.common.dto.ExpenseUpdateDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,7 +48,7 @@ class ExpenseControllerUTest {
                 justHadACoffee);
 
         given(expenseService.addExpense(justHadACoffee)).willReturn(new AddExpenseResponseDto("10"));
-        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.post("/expense-tracker/api/expenses")
+        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.post("EXPENSES_ENDPOINT")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(requestBody))
@@ -111,7 +112,6 @@ class ExpenseControllerUTest {
         verify(expenseService, times(1)).getExpense("2");
     }
 
-
     @Test
     @SneakyThrows
     void deleteExpense_givenExpenseId_performsDelete() {
@@ -121,6 +121,28 @@ class ExpenseControllerUTest {
                 .andExpect(status().isNoContent());
 
         verify(expenseService, times(1)).removeExpense("1");
+    }
+
+
+    @Test
+    @SneakyThrows
+    void updateExpense_givenUpdatedExpenseContent_savesAndReturnsTheUpdatedExpense() {
+        ExpenseUpdateDto paidTheRent =
+                new ExpenseUpdateDto("1", BigDecimal.valueOf(2000), "Paid the rent", "5");
+        String requestBody = objectMapper.writeValueAsString(paidTheRent);
+
+        MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.patch(EXPENSES_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(requestBody))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        ExpenseDto actualResult = objectMapper.readValue(
+                actualMvcResult.getResponse().getContentAsString(), ExpenseDto.class);
+        assertEquals(paidTheRent.categoryId(), actualResult.categoryId());
+        assertEquals(paidTheRent.amount(), actualResult.amount());
+        assertEquals(paidTheRent.description(), actualResult.description());
     }
 
 }
