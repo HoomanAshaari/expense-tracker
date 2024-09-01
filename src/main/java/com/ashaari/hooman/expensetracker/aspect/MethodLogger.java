@@ -13,16 +13,24 @@ import org.springframework.stereotype.Component;
 public class MethodLogger {
 
     @Pointcut("@within(Logged)")
-    public void loggingPointcut() {}
+    public void loggingPointcut() {
+    }
 
     @Around(value = "loggingPointcut()")
     public Object logMethod(ProceedingJoinPoint joinPoint) throws Throwable {
+        StringBuilder logMessage = new StringBuilder();
+        logMessage.append("Method got invoked: ")
+                .append(joinPoint.getSignature().getDeclaringTypeName())
+                .append(".")
+                .append(joinPoint.getSignature().getName());
         try {
             return joinPoint.proceed();
         } catch (Throwable throwable) {
+            String exception = throwable.getClass().getName() + ": " + throwable.getMessage();
+            logMessage.append("\n Exception has been thrown: ").append(exception);
             throw throwable;
         } finally {
-            log.info(joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+            log.info(logMessage.toString());
         }
     }
 
