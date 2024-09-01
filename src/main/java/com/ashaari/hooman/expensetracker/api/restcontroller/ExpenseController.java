@@ -50,7 +50,7 @@ public class ExpenseController {
             summary = "This API can partially or completely update an expense, " +
                     "depending on what fields in `ExpenseUpdateDto` have value.")
     public ExpenseDto updateExpense(@RequestBody @Valid ExpenseUpdateDto expenseUpdateDto) {
-        return null;
+        return expenseService.partialUpdate(expenseUpdateDto);
     }
 
 }

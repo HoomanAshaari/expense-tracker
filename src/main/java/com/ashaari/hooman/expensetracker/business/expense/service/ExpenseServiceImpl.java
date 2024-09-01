@@ -3,6 +3,7 @@ package com.ashaari.hooman.expensetracker.business.expense.service;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
+import com.ashaari.hooman.expensetracker.common.dto.ExpenseUpdateDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +22,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public void removeExpense(String id) {
 
+    }
+
+    @Override
+    public ExpenseDto partialUpdate(ExpenseUpdateDto expenseUpdateDto) {
+        return null;
     }
 
 }

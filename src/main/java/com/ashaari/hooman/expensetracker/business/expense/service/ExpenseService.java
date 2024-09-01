@@ -3,7 +3,9 @@ package com.ashaari.hooman.expensetracker.business.expense.service;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
+import com.ashaari.hooman.expensetracker.common.dto.ExpenseUpdateDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
+import jakarta.validation.Valid;
 
 public interface ExpenseService {
 
@@ -30,4 +32,14 @@ public interface ExpenseService {
      * @param id expense to be deleted
      */
     void removeExpense(String id);
+
+    /**
+     * Updates given expense based on new content (if available).
+     * So you should set fields that you want to update them with
+     * new values.
+     *
+     * @param expenseUpdateDto fields to be updated
+     * @return updated expense
+     */
+    ExpenseDto partialUpdate(@Valid ExpenseUpdateDto expenseUpdateDto);
 }

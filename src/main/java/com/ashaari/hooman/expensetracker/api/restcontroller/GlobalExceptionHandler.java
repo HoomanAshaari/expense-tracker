@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionObject handleThrowable(GlobalExceptionHandler ex) {
+    public ExceptionObject handleThrowable(@SuppressWarnings("unused") GlobalExceptionHandler ex) {
         return new ExceptionObject("InternalErrorException", "Something went wrong");
     }
 
