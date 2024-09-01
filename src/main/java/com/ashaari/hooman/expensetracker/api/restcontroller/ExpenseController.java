@@ -1,5 +1,6 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
+import com.ashaari.hooman.expensetracker.aspect.Logged;
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "Expense")
 @Validated
+@Logged
 public class ExpenseController {
 
     private final ExpenseService expenseService;
