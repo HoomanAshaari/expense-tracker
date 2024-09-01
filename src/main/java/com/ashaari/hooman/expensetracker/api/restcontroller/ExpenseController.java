@@ -35,4 +35,10 @@ public class ExpenseController {
         return expenseService.getExpense(id);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeExpense(@PathVariable String id) {
+
+    }
+
 }

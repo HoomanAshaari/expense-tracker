@@ -111,4 +111,14 @@ class ExpenseControllerUTest {
         verify(expenseService, times(1)).getExpense("2");
     }
 
+
+    @Test
+    @SneakyThrows
+    void deleteExpense_givenExpenseId_performsDelete() {
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.delete(EXPENSES_ENDPOINT + "/{id}", "1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNoContent());
+    }
+
 }
