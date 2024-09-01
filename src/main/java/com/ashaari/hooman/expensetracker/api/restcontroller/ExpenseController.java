@@ -32,17 +32,23 @@ public class ExpenseController {
     }
 
     @GetMapping("/{id}")
+    @Operation(description = "Finds an expense by given ID")
     public ExpenseDto getExpense(@PathVariable String id) {
         return expenseService.getExpense(id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(description = "Deletes an expense by given ID")
     public void removeExpense(@PathVariable String id) {
         expenseService.removeExpense(id);
     }
 
     @PatchMapping
+    @Operation(
+            description = "Updates an expense",
+            summary = "This API can partially or completely update an expense, " +
+                    "depending on what fields in `ExpenseUpdateDto` have value.")
     public ExpenseDto updateExpense(@RequestBody @Valid ExpenseUpdateDto expenseUpdateDto) {
         return null;
     }
