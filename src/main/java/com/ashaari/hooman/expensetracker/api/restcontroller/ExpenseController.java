@@ -29,4 +29,9 @@ public class ExpenseController {
         return expenseService.addExpense(expenseRequestDto);
     }
 
+    @GetMapping("/{id}")
+    public ExpenseResponseDto getExpense(@PathVariable String id) {
+        return null;
+    }
+
 }

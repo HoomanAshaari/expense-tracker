@@ -75,5 +75,9 @@ class ExpenseControllerUTest {
         verify(expenseService, times(1)).addExpense(homeToWorkCab);
     }
 
+    @Test
+    void getExpense_givenExistingExpenseId_returnsExpense() {
+
+    }
 
 }
