@@ -1,9 +1,9 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
+import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
-import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
-import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
+import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,8 +41,8 @@ class ExpenseControllerUTest {
     @Test
     @SneakyThrows
     void addExpense_givenNewExpense_savesAndReturnsTheExpense() {
-        ExpenseRequestDto justHadACoffee =
-                new ExpenseRequestDto(BigDecimal.TEN, "Just had a coffee", "1", LocalDateTime.now());
+        AddExpenseRequestDto justHadACoffee =
+                new AddExpenseRequestDto(BigDecimal.TEN, "Just had a coffee", "1", LocalDateTime.now());
         String requestBody = objectMapper.writeValueAsString(
                 justHadACoffee);
 
@@ -63,8 +63,8 @@ class ExpenseControllerUTest {
     @Test
     @SneakyThrows
     void addExpense_givenNewExpenseWithNotExistingCategory_returnsBadRequest() {
-        ExpenseRequestDto homeToWorkCab =
-                new ExpenseRequestDto(BigDecimal.TEN, "Home to work cab", "2", LocalDateTime.now());
+        AddExpenseRequestDto homeToWorkCab =
+                new AddExpenseRequestDto(BigDecimal.TEN, "Home to work cab", "2", LocalDateTime.now());
         String requestBody = objectMapper.writeValueAsString(
                 homeToWorkCab);
         given(expenseService.addExpense(homeToWorkCab)).willThrow(new CategoryNotFoundException());
@@ -81,7 +81,7 @@ class ExpenseControllerUTest {
     @Test
     @SneakyThrows
     void getExpense_givenExistingExpenseId_returnsExpense() {
-        ExpenseResponseDto expectedExpense = new ExpenseResponseDto(
+        ExpenseDto expectedExpense = new ExpenseDto(
                 "1", BigDecimal.ONE, "Water", "10", LocalDateTime.now());
         given(expenseService.getExpense("1")).willReturn(expectedExpense);
 
@@ -91,8 +91,8 @@ class ExpenseControllerUTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        ExpenseResponseDto actualExpense = objectMapper.readValue(
-                result.getResponse().getContentAsString(), ExpenseResponseDto.class
+        ExpenseDto actualExpense = objectMapper.readValue(
+                result.getResponse().getContentAsString(), ExpenseDto.class
         );
         verify(expenseService, times(1)).getExpense("1");
         assertEquals(expectedExpense, actualExpense);

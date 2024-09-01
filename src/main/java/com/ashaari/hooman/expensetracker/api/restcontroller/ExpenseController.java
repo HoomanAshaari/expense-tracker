@@ -2,9 +2,9 @@ package com.ashaari.hooman.expensetracker.api.restcontroller;
 
 import com.ashaari.hooman.expensetracker.aspect.Logged;
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
+import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
-import com.ashaari.hooman.expensetracker.common.dto.ExpenseRequestDto;
-import com.ashaari.hooman.expensetracker.common.dto.ExpenseResponseDto;
+import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseUpdateDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,12 +27,12 @@ public class ExpenseController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(description = "Adds a new expense")
-    public AddExpenseResponseDto addExpense(@RequestBody @Valid ExpenseRequestDto expenseRequestDto) {
-        return expenseService.addExpense(expenseRequestDto);
+    public AddExpenseResponseDto addExpense(@RequestBody @Valid AddExpenseRequestDto addExpenseRequestDto) {
+        return expenseService.addExpense(addExpenseRequestDto);
     }
 
     @GetMapping("/{id}")
-    public ExpenseResponseDto getExpense(@PathVariable String id) {
+    public ExpenseDto getExpense(@PathVariable String id) {
         return expenseService.getExpense(id);
     }
 
@@ -43,7 +43,7 @@ public class ExpenseController {
     }
 
     @PatchMapping
-    public ExpenseResponseDto updateExpense(@RequestBody @Valid ExpenseUpdateDto expenseUpdateDto) {
+    public ExpenseDto updateExpense(@RequestBody @Valid ExpenseUpdateDto expenseUpdateDto) {
         return null;
     }
 

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record ExpenseRequestDto(
+public record AddExpenseRequestDto(
         @DecimalMin(value = "0.0", inclusive = false) BigDecimal amount,
         String description,
         @NotEmpty String categoryId,
