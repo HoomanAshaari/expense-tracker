@@ -7,6 +7,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Aspect
 @Component
 @Slf4j
@@ -22,12 +24,16 @@ public class MethodLogger {
         logMessage.append("Method got invoked: ")
                 .append(joinPoint.getSignature().getDeclaringTypeName())
                 .append(".")
-                .append(joinPoint.getSignature().getName());
+                .append(joinPoint.getSignature().getName())
+                .append(" - Input parameters: ")
+                .append(Arrays.toString(joinPoint.getArgs()));
         try {
-            return joinPoint.proceed();
+            Object response = joinPoint.proceed();
+            logMessage.append(" - Response: ").append(response);
+            return response;
         } catch (Throwable throwable) {
             String exception = throwable.getClass().getName() + ": " + throwable.getMessage();
-            logMessage.append("\n Exception has been thrown: ").append(exception);
+            logMessage.append(" - Exception has been thrown: ").append(exception);
             throw throwable;
         } finally {
             log.info(logMessage.toString());
