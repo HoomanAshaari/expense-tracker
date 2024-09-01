@@ -128,21 +128,26 @@ class ExpenseControllerUTest {
     @SneakyThrows
     void updateExpense_givenUpdatedExpenseContent_savesAndReturnsTheUpdatedExpense() {
         ExpenseUpdateDto paidTheRent =
-                new ExpenseUpdateDto("1", BigDecimal.valueOf(2000), "Paid the rent", "5");
+                new ExpenseUpdateDto("1", null, "Paid the rent", null);
         String requestBody = objectMapper.writeValueAsString(paidTheRent);
+        ExpenseDto expectedExpenseDto = new ExpenseDto(
+                paidTheRent.id(), BigDecimal.valueOf(2000), paidTheRent.description(),
+                "5", LocalDateTime.of(2024, 9, 2, 1, 0));
+        given(expenseService.partialUpdate(paidTheRent)).willReturn(expectedExpenseDto);
 
         MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.patch(EXPENSES_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(requestBody))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andReturn();
 
         ExpenseDto actualResult = objectMapper.readValue(
                 actualMvcResult.getResponse().getContentAsString(), ExpenseDto.class);
-        assertEquals(paidTheRent.categoryId(), actualResult.categoryId());
-        assertEquals(paidTheRent.amount(), actualResult.amount());
+        assertEquals(expectedExpenseDto.categoryId(), actualResult.categoryId());
+        assertEquals(expectedExpenseDto.amount(), actualResult.amount());
         assertEquals(paidTheRent.description(), actualResult.description());
+        assertEquals(expectedExpenseDto.date(), actualResult.date());
     }
 
 }
