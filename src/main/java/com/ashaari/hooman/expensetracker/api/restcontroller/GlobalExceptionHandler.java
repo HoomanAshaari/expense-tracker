@@ -22,14 +22,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ExpenseTrackerClientException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionObject handleClientException(ExpenseTrackerClientException ex) {
-        log.error("Exception happened: {}", ex.toString());
         return new ExceptionObject(ex.getClass().getSimpleName(), ex.getMessage());
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionObject handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        log.error("Exception happened: {}", ex.toString());
         FieldError fieldError = ex.getFieldError();
         if (fieldError != null) {
             String field = fieldError.getField();
@@ -43,7 +41,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionObject handleThrowable(GlobalExceptionHandler ex) {
-        log.error("Exception happened: {}", ex.toString());
         return new ExceptionObject("InternalErrorException", "Something went wrong");
     }
 
