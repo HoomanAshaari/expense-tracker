@@ -1,5 +1,6 @@
 package com.ashaari.hooman.expensetracker.business.expense.service.impl;
 
+import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class ExpenseServiceImpl implements ExpenseService {
 
     private final ExpenseRepository expenseRepository;
+    private final CategoryService categoryService;
 
     @Override
     public AddExpenseResponseDto addExpense(AddExpenseRequestDto addExpenseRequestDto) {
