@@ -43,8 +43,8 @@ class ExpenseControllerUTest {
     @Test
     @SneakyThrows
     void addExpense_givenNewExpense_savesAndReturnsTheExpense() {
-        AddExpenseRequestDto justHadACoffee =
-                new AddExpenseRequestDto(BigDecimal.TEN, "Just had a coffee", "1", LocalDateTime.now());
+        AddExpenseRequestDto justHadACoffee = new AddExpenseRequestDto(
+                BigDecimal.TEN, "Just had a coffee", "1", LocalDateTime.now());
         String requestBody = objectMapper.writeValueAsString(
                 justHadACoffee);
 
@@ -65,8 +65,8 @@ class ExpenseControllerUTest {
     @Test
     @SneakyThrows
     void addExpense_givenNewExpenseWithNotExistingCategory_returnsBadRequest() {
-        AddExpenseRequestDto homeToWorkCab =
-                new AddExpenseRequestDto(BigDecimal.TEN, "Home to work cab", "2", LocalDateTime.now());
+        AddExpenseRequestDto homeToWorkCab = new AddExpenseRequestDto(
+                BigDecimal.TEN, "Home to work cab", "2", LocalDateTime.now());
         String requestBody = objectMapper.writeValueAsString(
                 homeToWorkCab);
         given(expenseService.addExpense(homeToWorkCab)).willThrow(new CategoryNotFoundException());
