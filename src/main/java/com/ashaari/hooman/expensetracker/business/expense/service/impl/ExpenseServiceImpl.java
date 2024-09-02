@@ -5,14 +5,25 @@ import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseUpdateDto;
+import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
+import com.ashaari.hooman.expensetracker.model.expense.repository.ExpenseRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ExpenseServiceImpl implements ExpenseService {
+
+    private final ExpenseRepository expenseRepository;
 
     @Override
     public AddExpenseResponseDto addExpense(AddExpenseRequestDto addExpenseRequestDto) {
         return null;
+    }
+
+    @Override
+    public ExpenseEntity saveExpense(ExpenseEntity expenseEntity) {
+        return expenseRepository.save(expenseEntity);
     }
 
     @Override

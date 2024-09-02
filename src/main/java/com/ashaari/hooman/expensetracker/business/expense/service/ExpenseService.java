@@ -5,6 +5,7 @@ import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseUpdateDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
+import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
 import jakarta.validation.Valid;
 
 public interface ExpenseService {
@@ -16,6 +17,14 @@ public interface ExpenseService {
      * @return added expense id
      */
     AddExpenseResponseDto addExpense(AddExpenseRequestDto addExpenseRequestDto);
+
+    /**
+     * Saves or updates a expense.
+     *
+     * @param expenseEntity expense to be saved/updated
+     * @return saved expense
+     */
+    ExpenseEntity saveExpense(ExpenseEntity expenseEntity);
 
     /**
      * Finds expense by ID.
