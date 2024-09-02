@@ -1,17 +1,47 @@
 package com.ashaari.hooman.expensetracker.business.expense.service.impl;
 
+import com.ashaari.hooman.expensetracker.business.expense.mapper.CategoryMapper;
+import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
+import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
+import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.CategoryRepository;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.math.BigDecimal;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceUTest {
 
+    @Spy
+    private final CategoryMapper categoryMapper = Mappers.getMapper(CategoryMapper.class);
     @Mock
     private CategoryRepository categoryRepository;
     @InjectMocks
     private CategoryServiceImpl categoryService;
+
+    @Test
+    void addCategory_givenNewCategory_savesAndReturns() {
+        // Given
+        AddCategoryRequestDto transportation =
+                new AddCategoryRequestDto("Transportation", BigDecimal.valueOf(1000));
+        when(categoryRepository.save(any())).thenAnswer(invocationOnMock -> {
+            Object arg = invocationOnMock.getArgument(0);
+            CategoryEntity categoryEntity = (CategoryEntity) arg;
+            categoryEntity.setId(1L);
+            return categoryEntity;
+        });
+        // Act
+        AddCategoryResponseDto actualResult = categoryService.addCategory(transportation);
+        // Assert
+    }
 
 }
