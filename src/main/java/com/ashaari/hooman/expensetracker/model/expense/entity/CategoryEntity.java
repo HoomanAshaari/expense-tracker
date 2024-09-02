@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +22,11 @@ public class CategoryEntity {
 
     @Column(nullable = false)
     private String name;
+
+    /**
+     * User specified budget for this category.
+     */
+    private BigDecimal budget;
 
     @Override
     public boolean equals(Object o) {
