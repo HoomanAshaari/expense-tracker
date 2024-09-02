@@ -8,14 +8,14 @@ import com.ashaari.hooman.expensetracker.model.expense.repository.CategoryReposi
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +27,9 @@ class CategoryServiceUTest {
     private CategoryRepository categoryRepository;
     @InjectMocks
     private CategoryServiceImpl categoryService;
+
+    @Captor
+    private ArgumentCaptor<CategoryEntity> categoryEntityArgumentCaptor;
 
     @Test
     void addCategory_givenNewCategory_savesAndReturns() {
@@ -42,6 +45,11 @@ class CategoryServiceUTest {
         // Act
         AddCategoryResponseDto actualResult = categoryService.addCategory(transportation);
         // Assert
+        verify(categoryRepository).save(categoryEntityArgumentCaptor.capture());
+        CategoryEntity actualEntityPassedToSaveMethod = categoryEntityArgumentCaptor.getValue();
+        assertEquals(transportation.name(), actualEntityPassedToSaveMethod.getName());
+        assertEquals(transportation.budget(), actualEntityPassedToSaveMethod.getBudget());
+        assertEquals("1", actualResult.id());
     }
 
 }
