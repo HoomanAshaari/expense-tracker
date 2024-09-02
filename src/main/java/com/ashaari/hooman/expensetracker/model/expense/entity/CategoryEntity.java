@@ -31,9 +31,9 @@ public class CategoryEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CategoryEntity that = (CategoryEntity) o;
-        return id != null && Objects.equals(getId(), that.getId());
+        if (!(o instanceof CategoryEntity that)) return false;
+        return id != null &&
+                Objects.equals(getId(), that.getId());
     }
 
     @Override
