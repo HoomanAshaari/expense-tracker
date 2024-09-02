@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 
 import static com.ashaari.hooman.expensetracker.api.restcontroller.util.ControllerTestUtils.EXPENSE_TRACKER_API_V_1;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,9 +38,12 @@ class CategoryControllerUTest {
     @Test
     @SneakyThrows
     void addCategory_givenNewCategory_savesAndReturnsTheCategory() {
+        // Given
         AddCategoryRequestDto entertainment =
                 new AddCategoryRequestDto("Entertainment", BigDecimal.valueOf(100));
-
+        AddCategoryResponseDto expectedAddCategoryResponseDto = new AddCategoryResponseDto("1");
+        given(categoryService.addCategory(entertainment)).willReturn(expectedAddCategoryResponseDto);
+        // Act
         String requestBody = objectMapper.writeValueAsString(entertainment);
         MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(CATEGORY_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -47,7 +51,7 @@ class CategoryControllerUTest {
                         .content(requestBody))
                 .andExpect(status().isCreated())
                 .andReturn();
-
+        // Assert
         AddCategoryResponseDto actualResponseDto = objectMapper.readValue(
                 actualMvcResult.getResponse().getContentAsString(), AddCategoryResponseDto.class);
         assertEquals("1", actualResponseDto.id());

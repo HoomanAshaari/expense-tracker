@@ -43,11 +43,12 @@ class ExpenseControllerUTest {
     @Test
     @SneakyThrows
     void addExpense_givenNewExpense_savesAndReturnsTheExpense() {
+        // Given
         AddExpenseRequestDto justHadACoffee = new AddExpenseRequestDto(
                 BigDecimal.TEN, "Just had a coffee", "1", LocalDateTime.now());
         String requestBody = objectMapper.writeValueAsString(
                 justHadACoffee);
-
+        // Act
         given(expenseService.addExpense(justHadACoffee)).willReturn(new AddExpenseResponseDto("10"));
         MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(EXPENSES_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -55,7 +56,7 @@ class ExpenseControllerUTest {
                         .content(requestBody))
                 .andExpect(status().isCreated())
                 .andReturn();
-
+        // Assert
         AddExpenseResponseDto addExpenseResponseDto = objectMapper.readValue(
                 actualMvcResult.getResponse().getContentAsString(), AddExpenseResponseDto.class);
         assertEquals("10", addExpenseResponseDto.id());
@@ -65,34 +66,36 @@ class ExpenseControllerUTest {
     @Test
     @SneakyThrows
     void addExpense_givenNewExpenseWithNotExistingCategory_returnsBadRequest() {
+        // Given
         AddExpenseRequestDto homeToWorkCab = new AddExpenseRequestDto(
                 BigDecimal.TEN, "Home to work cab", "2", LocalDateTime.now());
         String requestBody = objectMapper.writeValueAsString(
                 homeToWorkCab);
         given(expenseService.addExpense(homeToWorkCab)).willThrow(new CategoryNotFoundException());
-
+        // Act
         this.mockMvc.perform(MockMvcRequestBuilders.post(EXPENSES_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(requestBody))
                 .andExpect(status().is4xxClientError());
-
+        //Assert
         verify(expenseService, times(1)).addExpense(homeToWorkCab);
     }
 
     @Test
     @SneakyThrows
     void getExpense_givenExistingExpenseId_returnsExpense() {
+        // Given
         ExpenseDto expectedExpense = new ExpenseDto(
                 "1", BigDecimal.ONE, "Water", "10", LocalDateTime.now());
         given(expenseService.getExpense("1")).willReturn(expectedExpense);
-
+        // Act
         MvcResult actualMvcResult = this.mockMvc
                 .perform(MockMvcRequestBuilders.get(EXPENSES_ENDPOINT + "/{id}", "1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
-
+        // Assert
         ExpenseDto actualExpense = objectMapper.readValue(
                 actualMvcResult.getResponse().getContentAsString(), ExpenseDto.class
         );
@@ -103,24 +106,27 @@ class ExpenseControllerUTest {
     @Test
     @SneakyThrows
     void getExpense_givenNonExistingExpenseId_returnsNotFound() {
+        // Given
         given(expenseService.getExpense("2")).willThrow(new ExpenseNotFoundException());
-
+        // Act
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get(EXPENSES_ENDPOINT + "/{id}", "2")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound());
 
+        // Assert
         verify(expenseService, times(1)).getExpense("2");
     }
 
     @Test
     @SneakyThrows
     void deleteExpense_givenExpenseId_performsDelete() {
+        // Given, Act
         this.mockMvc
                 .perform(MockMvcRequestBuilders.delete(EXPENSES_ENDPOINT + "/{id}", "1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNoContent());
-
+        // Assert
         verify(expenseService, times(1)).removeExpense("1");
     }
 
@@ -128,6 +134,7 @@ class ExpenseControllerUTest {
     @Test
     @SneakyThrows
     void updateExpense_givenUpdatedExpenseContent_savesAndReturnsTheUpdatedExpense() {
+        // Given
         ExpenseUpdateDto paidTheRent =
                 new ExpenseUpdateDto("1", null, "Paid the rent", null);
         String requestBody = objectMapper.writeValueAsString(paidTheRent);
@@ -135,14 +142,14 @@ class ExpenseControllerUTest {
                 paidTheRent.id(), BigDecimal.valueOf(2000), paidTheRent.description(),
                 "5", LocalDateTime.of(2024, 9, 2, 1, 0));
         given(expenseService.partialUpdate(paidTheRent)).willReturn(expectedExpenseDto);
-
+        // Act
         MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.patch(EXPENSES_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(requestBody))
                 .andExpect(status().isOk())
                 .andReturn();
-
+        // Assert
         ExpenseDto actualResult = objectMapper.readValue(
                 actualMvcResult.getResponse().getContentAsString(), ExpenseDto.class);
         assertEquals(expectedExpenseDto.categoryId(), actualResult.categoryId());
