@@ -15,5 +15,5 @@ public record AddExpenseRequestDto(
         String categoryId,
         @Schema(description = "The date on which you spent money. " +
                 "(Current date/time will be used if not specified.)")
-        LocalDateTime date) {
+        LocalDateTime spentOn) {
 }

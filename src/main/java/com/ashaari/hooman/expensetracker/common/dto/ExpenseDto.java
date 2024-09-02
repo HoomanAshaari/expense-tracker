@@ -8,5 +8,5 @@ public record ExpenseDto(
         BigDecimal amount,
         String description,
         String categoryId,
-        LocalDateTime date) {
+        LocalDateTime spentOn) {
 }
