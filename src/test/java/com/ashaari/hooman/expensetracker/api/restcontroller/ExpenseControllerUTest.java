@@ -1,5 +1,6 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
+import com.ashaari.hooman.expensetracker.api.restcontroller.util.ControllerTestUtils;
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ExpenseController.class)
 class ExpenseControllerUTest {
 
-    public static final String EXPENSES_ENDPOINT = "/expense-tracker/api/v1/expenses";
+    public static final String EXPENSES_ENDPOINT = ControllerTestUtils.EXPENSE_TRACKER_API_V_1 + "/expenses";
     @Autowired
     private MockMvc mockMvc;
     @Autowired
