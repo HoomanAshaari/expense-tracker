@@ -10,6 +10,8 @@ import com.ashaari.hooman.expensetracker.model.expense.repository.CategoryReposi
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
@@ -25,13 +27,27 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoryEntity saveCategory(CategoryEntity categoryEntity) {
+        return categoryRepository.save(categoryEntity);
+    }
+
+    @Override
     public CategoryDto getCategory(String id) {
         return null;
     }
 
     @Override
-    public CategoryEntity saveCategory(CategoryEntity categoryEntity) {
-        return categoryRepository.save(categoryEntity);
+    public Optional<CategoryEntity> findEntity(String id) {
+        // Used String for input as a best-practice,  so we could increase
+        // backward-compatibility. This way we will be able to change type
+        // of the ID easier later.
+        long longId;
+        try {
+            longId = Long.parseLong(id);
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
+        return categoryRepository.findById(longId);
     }
 
 }

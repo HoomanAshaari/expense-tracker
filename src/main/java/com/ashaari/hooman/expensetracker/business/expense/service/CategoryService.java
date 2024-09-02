@@ -6,6 +6,8 @@ import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
 import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 
+import java.util.Optional;
+
 public interface CategoryService {
 
     /**
@@ -17,6 +19,14 @@ public interface CategoryService {
     AddCategoryResponseDto addCategory(AddCategoryRequestDto addCategoryRequestDto);
 
     /**
+     * Saves or updates a category.
+     *
+     * @param categoryEntity category to be saved/updated.
+     * @return saved category
+     */
+    CategoryEntity saveCategory(CategoryEntity categoryEntity);
+
+    /**
      * Finds category by ID.
      *
      * @param id category identifier
@@ -26,11 +36,11 @@ public interface CategoryService {
     CategoryDto getCategory(String id);
 
     /**
-     * Saves or updates a category.
+     * Finds category by ID.
      *
-     * @param categoryEntity category to be saved/updated.
-     * @return saved category
+     * @param id category identifier
+     * @return found expense, or nothing (if it doesn't exist)
      */
-    CategoryEntity saveCategory(CategoryEntity categoryEntity);
+    Optional<CategoryEntity> findEntity(String id);
 
 }
