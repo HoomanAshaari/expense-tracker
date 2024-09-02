@@ -4,6 +4,7 @@ import com.ashaari.hooman.expensetracker.business.expense.mapper.CategoryMapper;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
+import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.CategoryRepository;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -68,6 +70,14 @@ class CategoryServiceUTest {
         assertEquals("1", actualCategory.id());
         assertEquals(expectedCategory.getName(), actualCategory.name());
         assertEquals(expectedCategory.getBudget(), actualCategory.budget());
+    }
+
+    @Test
+    void getCategory_givenNotExistingCategoryId_throwsCategoryNotFoundException() {
+        // Given
+        given(categoryRepository.findById(2L)).willReturn(Optional.empty());
+        // Act, Assert
+        assertThrows(CategoryNotFoundException.class, () -> categoryService.getCategory("2"));
     }
 
 }
