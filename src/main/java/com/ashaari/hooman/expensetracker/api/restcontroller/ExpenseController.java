@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/expense-tracker/api/expenses")
+@RequestMapping("/expense-tracker/api/v1/expenses")
 @RequiredArgsConstructor
 @Tag(name = "Expense")
 @Validated

@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ExpenseController.class)
 class ExpenseControllerUTest {
 
-    public static final String EXPENSES_ENDPOINT = "/expense-tracker/api/expenses";
+    public static final String EXPENSES_ENDPOINT = "/expense-tracker/api/v1/expenses";
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -48,7 +48,7 @@ class ExpenseControllerUTest {
                 justHadACoffee);
 
         given(expenseService.addExpense(justHadACoffee)).willReturn(new AddExpenseResponseDto("10"));
-        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.post("EXPENSES_ENDPOINT")
+        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.post(EXPENSES_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(requestBody))
