@@ -1,12 +1,10 @@
 package com.ashaari.hooman.expensetracker.model.expense.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +13,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CategoryEntity {
 
     @Id
@@ -28,6 +27,9 @@ public class CategoryEntity {
      * User specified budget for this category.
      */
     private BigDecimal budget;
+
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<ExpenseEntity> expenses;
 
     @Override
     public boolean equals(Object o) {

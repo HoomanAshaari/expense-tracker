@@ -61,7 +61,8 @@ class CategoryServiceUTest {
     @Test
     void getCategory_givenExistingCategoryId_returnsCategory() {
         // Given
-        CategoryEntity expectedCategory = new CategoryEntity(1L, "Entertainment", BigDecimal.valueOf(1000));
+        CategoryEntity expectedCategory = CategoryEntity.builder()
+                .id(1L).name("Entertainment").budget(BigDecimal.valueOf(1000)).build();
         given(categoryRepository.findById(1L)).willReturn(Optional.of(expectedCategory));
         // Act
         CategoryDto actualCategory = categoryService.getCategory("1");
