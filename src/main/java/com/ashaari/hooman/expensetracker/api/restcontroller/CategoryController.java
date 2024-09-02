@@ -37,4 +37,7 @@ public class CategoryController {
         return categoryService.getCategory(id);
     }
 
+    // Category removal and modification, needs more considerations,
+    // so we could postpone their implementation to next the  phase.
+
 }
