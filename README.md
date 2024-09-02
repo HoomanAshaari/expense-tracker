@@ -50,7 +50,7 @@ and generate reports to get insights into your spending habits.
 
 ## TODOs:
 
-- Completely implement support for timezones
+- Add support for timezones
 - Add proper log exporting/collecting capabilities
 
 ## Licence

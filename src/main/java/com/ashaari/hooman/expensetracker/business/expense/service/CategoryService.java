@@ -4,6 +4,7 @@ import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
+import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 
 public interface CategoryService {
 
@@ -23,4 +24,13 @@ public interface CategoryService {
      * @throws ExpenseNotFoundException if resource doesn't exist
      */
     CategoryDto getCategory(String id);
+
+    /**
+     * Saves or updates a category.
+     *
+     * @param categoryEntity category to be saved/updated.
+     * @return saved category
+     */
+    CategoryEntity saveCategory(CategoryEntity categoryEntity);
+
 }
