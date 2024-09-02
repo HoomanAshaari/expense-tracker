@@ -1,11 +1,14 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
+import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
+import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -14,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.math.BigDecimal;
 
 import static com.ashaari.hooman.expensetracker.api.restcontroller.util.ControllerTestUtils.EXPENSE_TRACKER_API_V_1;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CategoryController.class)
@@ -25,6 +29,9 @@ class CategoryControllerUTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    private CategoryService categoryService;
+
     @Test
     @SneakyThrows
     void addCategory_givenNewCategory_savesAndReturnsTheCategory() {
@@ -33,13 +40,16 @@ class CategoryControllerUTest {
 
         String requestBody = objectMapper.writeValueAsString(entertainment);
 
-        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.post(CATEGORY_ENDPOINT)
+        MvcResult actualMsvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(CATEGORY_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(requestBody))
                 .andExpect(status().isCreated())
                 .andReturn();
 
+        AddCategoryResponseDto actualResponseDto = objectMapper.readValue(
+                actualMsvcResult.getResponse().getContentAsString(), AddCategoryResponseDto.class);
+        assertEquals("1", actualResponseDto.id());
     }
 
 }
