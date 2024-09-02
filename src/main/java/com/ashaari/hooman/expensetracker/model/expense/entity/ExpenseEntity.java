@@ -32,6 +32,13 @@ public class ExpenseEntity {
 
     private LocalDateTime spentOn;
 
+    @PrePersist
+    void prePersist() {
+        if (this.spentOn == null) {
+            this.spentOn = LocalDateTime.now();
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
