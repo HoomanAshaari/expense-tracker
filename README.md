@@ -46,6 +46,11 @@ and generate reports to get insights into your spending habits.
 
 ## 🔧 Installation
 
+1) Set up a MySQL server
+2) Make sure scripts in [db directory](src/main/resources/db) get
+   executed in your database environment (flyway dependency will
+   be added soon to make this process easier)
+
 ## 📔 How to use?
 
 ## TODOs:
