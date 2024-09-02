@@ -22,6 +22,7 @@ import static org.mockito.Mockito.when;
 class CategoryServiceUTest {
 
     @Spy
+    @SuppressWarnings("unused")
     private final CategoryMapper categoryMapper = Mappers.getMapper(CategoryMapper.class);
     @Mock
     private CategoryRepository categoryRepository;

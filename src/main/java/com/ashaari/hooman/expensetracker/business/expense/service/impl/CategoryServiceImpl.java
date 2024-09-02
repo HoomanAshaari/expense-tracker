@@ -1,5 +1,6 @@
 package com.ashaari.hooman.expensetracker.business.expense.service.impl;
 
+import com.ashaari.hooman.expensetracker.business.expense.mapper.CategoryMapper;
 import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
@@ -14,10 +15,13 @@ import org.springframework.stereotype.Service;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
     @Override
     public AddCategoryResponseDto addCategory(AddCategoryRequestDto addCategoryRequestDto) {
-        return null;
+        CategoryEntity categoryEntity = categoryMapper.toEntity(addCategoryRequestDto);
+        categoryEntity = saveCategory(categoryEntity);
+        return categoryMapper.toAddCategoryResponseDto(categoryEntity);
     }
 
     @Override
