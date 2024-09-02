@@ -1,1 +1,1 @@
-create schema expense-tracker;
+CREATE SCHEMA expense-tracker;
