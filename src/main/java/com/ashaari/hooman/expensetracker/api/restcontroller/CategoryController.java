@@ -4,6 +4,7 @@ import com.ashaari.hooman.expensetracker.aspect.Logged;
 import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
+import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -27,6 +28,12 @@ public class CategoryController {
     @Operation(description = "Adds a new category")
     public AddCategoryResponseDto addCategory(@RequestBody @Valid AddCategoryRequestDto addCategoryRequestDto) {
         return categoryService.addCategory(addCategoryRequestDto);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(description = "Finds a category by given ID")
+    public CategoryDto getCategory(@PathVariable String id) {
+        return null;
     }
 
 }

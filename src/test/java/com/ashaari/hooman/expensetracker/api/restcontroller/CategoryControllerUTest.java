@@ -58,4 +58,11 @@ class CategoryControllerUTest {
         verify(categoryService, times(1)).addCategory(entertainment);
     }
 
+    @Test
+    void getCategory_givenExistingCategoryId_returnsTheCategory() {
+        // Given
+        // Act
+        // Assert
+    }
+
 }
