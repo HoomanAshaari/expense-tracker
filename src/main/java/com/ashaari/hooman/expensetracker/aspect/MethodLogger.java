@@ -9,6 +9,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+/**
+ * Logs input, output, and exceptions happened in
+ * methods within the classes marked  with {@link
+ * Logged}.
+ *
+ * @see Logged
+ */
 @Aspect
 @Component
 @Slf4j
