@@ -49,7 +49,7 @@ class ExpenseControllerUTest {
                 justHadACoffee);
 
         given(expenseService.addExpense(justHadACoffee)).willReturn(new AddExpenseResponseDto("10"));
-        MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.post(EXPENSES_ENDPOINT)
+        MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(EXPENSES_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(requestBody))
@@ -57,7 +57,7 @@ class ExpenseControllerUTest {
                 .andReturn();
 
         AddExpenseResponseDto addExpenseResponseDto = objectMapper.readValue(
-                result.getResponse().getContentAsString(), AddExpenseResponseDto.class);
+                actualMvcResult.getResponse().getContentAsString(), AddExpenseResponseDto.class);
         assertEquals("10", addExpenseResponseDto.id());
         verify(expenseService, times(1)).addExpense(justHadACoffee);
     }
@@ -87,14 +87,14 @@ class ExpenseControllerUTest {
                 "1", BigDecimal.ONE, "Water", "10", LocalDateTime.now());
         given(expenseService.getExpense("1")).willReturn(expectedExpense);
 
-        MvcResult result = this.mockMvc
+        MvcResult actualMvcResult = this.mockMvc
                 .perform(MockMvcRequestBuilders.get(EXPENSES_ENDPOINT + "/{id}", "1")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
 
         ExpenseDto actualExpense = objectMapper.readValue(
-                result.getResponse().getContentAsString(), ExpenseDto.class
+                actualMvcResult.getResponse().getContentAsString(), ExpenseDto.class
         );
         verify(expenseService, times(1)).getExpense("1");
         assertEquals(expectedExpense, actualExpense);
