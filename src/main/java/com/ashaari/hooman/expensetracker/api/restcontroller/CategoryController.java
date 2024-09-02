@@ -33,7 +33,7 @@ public class CategoryController {
     @GetMapping("/{id}")
     @Operation(description = "Finds a category by given ID")
     public CategoryDto getCategory(@PathVariable String id) {
-        return null;
+        return categoryService.getCategory(id);
     }
 
 }

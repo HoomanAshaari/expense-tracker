@@ -3,6 +3,7 @@ package com.ashaari.hooman.expensetracker.api.restcontroller;
 import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
+import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -59,10 +60,23 @@ class CategoryControllerUTest {
     }
 
     @Test
+    @SneakyThrows
     void getCategory_givenExistingCategoryId_returnsTheCategory() {
         // Given
+        CategoryDto expectedCategory = new CategoryDto(
+                "1", "Entertainment", BigDecimal.valueOf(100));
+        given(categoryService.getCategory("1")).willReturn(expectedCategory);
         // Act
+        MvcResult actualMvcResult = this.mockMvc
+                .perform(MockMvcRequestBuilders.get(CATEGORY_ENDPOINT + "/{id}", "1")
+                        .content(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andReturn();
         // Assert
+        CategoryDto actualResponseDto = objectMapper.readValue(
+                actualMvcResult.getResponse().getContentAsString(), CategoryDto.class);
+        verify( categoryService, times(1)).getCategory("1");
+        assertEquals("1", actualResponseDto.id());
     }
 
 }
