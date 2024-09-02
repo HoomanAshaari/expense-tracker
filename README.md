@@ -31,7 +31,7 @@ and generate reports to get insights into your spending habits.
 - **Financial goal setting**
     - Add your income
     - Set personalized financial goals
-    - Add budget for you expenses
+    - Add budget for your expenses
 
 ## 🚀 Technology Stack
 
