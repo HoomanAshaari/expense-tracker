@@ -5,6 +5,7 @@ import com.ashaari.hooman.expensetracker.business.expense.service.CategoryServic
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
+import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getCategory(String id) {
-        return null;
+        CategoryEntity categoryEntity = findEntity(id).orElseThrow(CategoryNotFoundException::new);
+        return categoryMapper.toCategoryDto(categoryEntity);
     }
 
     @Override
