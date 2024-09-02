@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,6 +31,27 @@ public class CategoryEntity {
 
     @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<ExpenseEntity> expenses;
+
+    public void addExpense(ExpenseEntity expense) {
+        if (this.expenses == null) {
+            this.expenses = new ArrayList<>();
+        }
+        this.expenses.add(expense);
+        expense.setCategory(this);
+    }
+
+    public void removeAllExpenses() {
+        for (ExpenseEntity expense : expenses) {
+            removeExpense(expense);
+        }
+    }
+
+    public void removeExpense(ExpenseEntity expense) {
+        expense.setCategory(null);
+        if (this.expenses != null) {
+            this.expenses.remove(expense);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
