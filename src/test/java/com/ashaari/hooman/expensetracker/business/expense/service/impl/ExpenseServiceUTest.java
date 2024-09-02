@@ -1,5 +1,6 @@
 package com.ashaari.hooman.expensetracker.business.expense.service.impl;
 
+import com.ashaari.hooman.expensetracker.business.expense.mapper.ExpenseMapper;
 import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
@@ -8,10 +9,8 @@ import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.ExpenseRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mapstruct.factory.Mappers;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -27,6 +26,9 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ExpenseServiceUTest {
 
+    @Spy
+    @SuppressWarnings("unused")
+    private ExpenseMapper expenseMapper = Mappers.getMapper(ExpenseMapper.class);
     @Mock
     private CategoryService categoryService;
     @Mock
