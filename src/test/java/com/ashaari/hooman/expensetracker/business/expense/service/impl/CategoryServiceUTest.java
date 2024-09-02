@@ -53,4 +53,11 @@ class CategoryServiceUTest {
         assertEquals("1", actualResult.id());
     }
 
+    @Test
+    void getCategory_givenExistingCategoryId_returnsCategory() {
+        // Given
+        // Act
+        // Assert
+    }
+
 }
