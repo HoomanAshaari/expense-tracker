@@ -32,7 +32,8 @@ public class ExpenseController {
     }
 
     @GetMapping("/{id}")
-    @Operation(description = "Finds an expense by given ID")
+    @Operation(description = "Finds an expense by given ID. Not found " +
+            "error will be returned if there is no resource for the given ID.")
     public ExpenseDto getExpense(@PathVariable String id) {
         return expenseService.getExpense(id);
     }

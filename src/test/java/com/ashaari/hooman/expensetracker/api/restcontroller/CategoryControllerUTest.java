@@ -4,6 +4,7 @@ import com.ashaari.hooman.expensetracker.business.expense.service.CategoryServic
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
+import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -75,8 +76,22 @@ class CategoryControllerUTest {
         // Assert
         CategoryDto actualResponseDto = objectMapper.readValue(
                 actualMvcResult.getResponse().getContentAsString(), CategoryDto.class);
-        verify( categoryService, times(1)).getCategory("1");
+        verify(categoryService, times(1)).getCategory("1");
         assertEquals("1", actualResponseDto.id());
+    }
+
+    @Test
+    @SneakyThrows
+    void getCategory_givenNotExistingCategory_returnsNotFoundError() {
+        // Given
+        given(categoryService.getCategory("2")).willThrow(new CategoryNotFoundException());
+        // Act
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.get(CATEGORY_ENDPOINT + "/{id}", "2")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotFound());
+        // Assert
+        verify(categoryService, times(1)).getCategory("2");
     }
 
 }

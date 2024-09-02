@@ -105,7 +105,7 @@ class ExpenseControllerUTest {
 
     @Test
     @SneakyThrows
-    void getExpense_givenNonExistingExpenseId_returnsNotFound() {
+    void getExpense_givenNotExistingExpenseId_returnsNotFound() {
         // Given
         given(expenseService.getExpense("2")).willThrow(new ExpenseNotFoundException());
         // Act

@@ -31,7 +31,8 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    @Operation(description = "Finds a category by given ID")
+    @Operation(description = "Finds a category by given ID. Not found " +
+            "error will be returned if there is no resource for the given ID.")
     public CategoryDto getCategory(@PathVariable String id) {
         return categoryService.getCategory(id);
     }
