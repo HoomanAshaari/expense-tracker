@@ -1,18 +1,18 @@
 package com.ashaari.hooman.expensetracker.model.user.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "user")
 @Getter
+@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
+@FieldNameConstants
 public class UserEntity {
 
     @Id
@@ -28,6 +28,11 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String email;
+
+    public UserEntity(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
 
     @Override
     public boolean equals(Object o) {
