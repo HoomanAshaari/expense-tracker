@@ -60,7 +60,7 @@ class ExpenseServiceUTest {
         verify(expenseRepository).save(expenseEntityArgumentCaptor.capture());
         ExpenseEntity actualEntityPassedToSaveMethod = expenseEntityArgumentCaptor.getValue();
         assertEquals(1L, actualEntityPassedToSaveMethod.getId());
-        assertEquals(hadAnIceCream.categoryId(), actualEntityPassedToSaveMethod.getCategory().getId());
+        assertEquals(Long.valueOf(hadAnIceCream.categoryId()), actualEntityPassedToSaveMethod.getCategory().getId());
         assertEquals(hadAnIceCream.amount(), actualEntityPassedToSaveMethod.getAmount());
         assertEquals(hadAnIceCream.description(), actualEntityPassedToSaveMethod.getDescription());
     }

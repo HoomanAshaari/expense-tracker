@@ -155,7 +155,7 @@ class ExpenseControllerUTest {
         assertEquals(expectedExpenseDto.categoryId(), actualResult.categoryId());
         assertEquals(expectedExpenseDto.amount(), actualResult.amount());
         assertEquals(paidTheRent.description(), actualResult.description());
-        assertEquals(expectedExpenseDto.date(), actualResult.date());
+        assertEquals(expectedExpenseDto.spentOn(), actualResult.spentOn());
     }
 
 }

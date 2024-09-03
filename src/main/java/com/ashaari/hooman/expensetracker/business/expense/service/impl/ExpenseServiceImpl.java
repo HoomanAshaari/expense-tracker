@@ -7,6 +7,8 @@ import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseUpdateDto;
+import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
+import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +26,13 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     @Transactional
     public AddExpenseResponseDto addExpense(AddExpenseRequestDto addExpenseRequestDto) {
-
-        return null;
+        CategoryEntity categoryEntity = categoryService
+                .findEntity(addExpenseRequestDto.categoryId())
+                .orElseThrow(CategoryNotFoundException::new);
+        ExpenseEntity expenseEntity = expenseMapper.toExpenseEntity(addExpenseRequestDto);
+        expenseEntity.setCategory(categoryEntity);
+        expenseEntity = expenseRepository.save(expenseEntity);
+        return expenseMapper.toAddExpenseResponseDto(expenseEntity);
     }
 
     @Override
