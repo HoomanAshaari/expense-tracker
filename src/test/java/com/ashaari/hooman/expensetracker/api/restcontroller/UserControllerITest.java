@@ -124,7 +124,7 @@ class UserControllerITest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(johnLoginRequestDto)))
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isUnauthorized())
                 .andReturn();
         ExceptionDto actualExceptionDto = objectMapper.readValue(
                 actualMvcResult.getResponse().getContentAsString(), ExceptionDto.class);

@@ -2,6 +2,7 @@ package com.ashaari.hooman.expensetracker.api.restcontroller;
 
 import com.ashaari.hooman.expensetracker.common.dto.ExceptionDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseTrackerClientException;
+import com.ashaari.hooman.expensetracker.common.exception.client.InvalidCredentialsException;
 import com.ashaari.hooman.expensetracker.common.exception.client.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -23,6 +24,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionDto handleResourceNotFoundException(ResourceNotFoundException ex) {
+        return getExceptionObject(ex);
+    }
+
+    @ExceptionHandler(value = InvalidCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ExceptionDto handleInvalidCredentialsException(InvalidCredentialsException ex) {
         return getExceptionObject(ex);
     }
 
