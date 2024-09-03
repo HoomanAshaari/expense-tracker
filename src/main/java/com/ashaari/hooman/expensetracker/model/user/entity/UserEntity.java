@@ -11,7 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @FieldNameConstants
 public class UserEntity {
 
