@@ -4,6 +4,7 @@ import com.ashaari.hooman.expensetracker.business.expense.mapper.ExpenseMapper;
 import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
+import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.ExpenseRepository;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -64,5 +66,17 @@ class ExpenseServiceUTest {
         assertEquals(hadAnIceCream.amount(), actualEntityPassedToSaveMethod.getAmount());
         assertEquals(hadAnIceCream.description(), actualEntityPassedToSaveMethod.getDescription());
     }
+
+    @Test
+    void addExpense_givenNotExistingCategoryInRequest_throwsCategoryNotFoundException() {
+        // Given
+        AddExpenseRequestDto hadAnIceCream = new AddExpenseRequestDto(
+                BigDecimal.ONE, "Had an ice cream", "50", LocalDateTime.now());
+        given(categoryService.findEntity("50")).willReturn(Optional.empty());
+        // Act, Assert
+        assertThrows(CategoryNotFoundException.class, () -> expenseService.addExpense(hadAnIceCream));
+        verify(categoryService).findEntity("50");
+    }
+
 
 }
