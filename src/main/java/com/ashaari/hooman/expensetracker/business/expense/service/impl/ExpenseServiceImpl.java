@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ExpenseServiceImpl implements ExpenseService {
@@ -44,6 +46,11 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Transactional(readOnly = true)
     public ExpenseDto getExpense(String id) {
         return null;
+    }
+
+    @Override
+    public Optional<ExpenseEntity> findEntity(String id) {
+        return expenseRepository.findById(Long.valueOf(id));
     }
 
     @Override

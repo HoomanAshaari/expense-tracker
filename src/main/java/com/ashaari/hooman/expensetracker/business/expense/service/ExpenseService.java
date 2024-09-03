@@ -9,6 +9,8 @@ import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
 import jakarta.validation.Valid;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 public interface ExpenseService {
 
     /**
@@ -37,6 +39,15 @@ public interface ExpenseService {
      */
     @Transactional(readOnly = true)
     ExpenseDto getExpense(String id);
+
+    /**
+     * Finds expense by ID.
+     *
+     * @param id expense identifier
+     * @return found expense, or an empty optional
+     */
+    @Transactional(readOnly = true)
+    Optional<ExpenseEntity> findEntity(String id);
 
     /**
      * Removes expense by ID.
