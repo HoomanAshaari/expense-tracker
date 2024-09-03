@@ -83,13 +83,20 @@ class ExpenseServiceUTest {
     @Test
     void getExpense_givenExistingExpense_returnsExpense() {
         // Given
+        CategoryEntity category = new CategoryEntity();
+        category.setId(5L);
         ExpenseEntity moviesTicket = ExpenseEntity.builder()
-                .id(1L).amount(BigDecimal.TEN).description("Movies ticket").spentOn(LocalDateTime.now()).build();
+                .id(1L)
+                .amount(BigDecimal.TEN)
+                .category(category)
+                .description("Movies ticket")
+                .spentOn(LocalDateTime.now()).build();
         given(expenseRepository.findById(1L)).willReturn(Optional.of(moviesTicket));
         // Act
         ExpenseDto actualExpense = expenseService.getExpense("1");
         // Assert
         assertEquals("1", actualExpense.id());
+        assertEquals("5", actualExpense.categoryId());
         assertEquals(moviesTicket.getAmount(), actualExpense.amount());
         assertEquals(moviesTicket.getDescription(), actualExpense.description());
         assertEquals(moviesTicket.getSpentOn(), actualExpense.spentOn());
