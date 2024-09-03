@@ -64,7 +64,7 @@ class ExpenseServiceUTest {
         verify(expenseRepository).save(expenseEntityArgumentCaptor.capture());
         ExpenseEntity actualEntityPassedToSaveMethod = expenseEntityArgumentCaptor.getValue();
         assertEquals(1L, actualEntityPassedToSaveMethod.getId());
-        assertEquals(Long.valueOf(hadAnIceCream.categoryId()), actualEntityPassedToSaveMethod.getCategory().getId());
+        assertEquals(5, actualEntityPassedToSaveMethod.getCategory().getId());
         assertEquals(hadAnIceCream.amount(), actualEntityPassedToSaveMethod.getAmount());
         assertEquals(hadAnIceCream.description(), actualEntityPassedToSaveMethod.getDescription());
     }
@@ -89,7 +89,7 @@ class ExpenseServiceUTest {
         // Act
         ExpenseDto actualExpense = expenseService.getExpense("1");
         // Assert
-        assertEquals(moviesTicket.getId(), actualExpense.id());
+        assertEquals("1", actualExpense.id());
         assertEquals(moviesTicket.getAmount(), actualExpense.amount());
         assertEquals(moviesTicket.getDescription(), actualExpense.description());
         assertEquals(moviesTicket.getSpentOn(), actualExpense.spentOn());
