@@ -4,6 +4,7 @@ import com.ashaari.hooman.expensetracker.common.dto.ExceptionDto;
 import com.ashaari.hooman.expensetracker.common.dto.LoginRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.LoginResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.SignUpRequestDto;
+import com.ashaari.hooman.expensetracker.common.exception.client.InvalidCredentialsException;
 import com.ashaari.hooman.expensetracker.common.exception.client.UsernameAlreadyExistsException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -114,8 +115,20 @@ class UserControllerITest {
     }
 
     @Test
-    void login_givenInvalidUserCredential_returns401Error() {
-
+    @SneakyThrows
+    void login_givenInvalidUserCredentials_returns401Error() {
+        // Given
+        LoginRequestDto johnLoginRequestDto = new LoginRequestDto("John", "12345678");
+        // Act, Assert
+        MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(LOGIN_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(johnLoginRequestDto)))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+        ExceptionDto actualExceptionDto = objectMapper.readValue(
+                actualMvcResult.getResponse().getContentAsString(), ExceptionDto.class);
+        assertEquals(InvalidCredentialsException.class.getSimpleName(), actualExceptionDto.errorCode());
     }
 
 }
