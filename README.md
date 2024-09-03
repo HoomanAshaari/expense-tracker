@@ -56,7 +56,12 @@ and generate reports to get insights into your spending habits.
 ## TODOs:
 
 - Add support for timezones
-- Add proper log exporting/collecting capabilities
+
+- Currently, we are using console logger appender, add a proper
+  log exporting/collecting mechanism
+
+- Users and security services are getting tested under integration-tests,
+  you can add some unit-tests for user and security related services
 
 ## Licence
 

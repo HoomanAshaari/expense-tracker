@@ -21,7 +21,7 @@ public class UserController {
     @PostMapping("sign-up")
     @ResponseStatus(HttpStatus.CREATED)
     public void signUp(@RequestBody @Valid SignUpRequestDto signUpRequestDto) {
-
+        userService.signUp(signUpRequestDto);
     }
 
 }
