@@ -16,6 +16,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        // Get `Authorization` header
+        String authHeader = request.getHeader("Authorization");
+        String username = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            authHeader = authHeader.substring(7);
+            //TODO: extract username using JwtService
+        }
+        // Extract username from token
+        // Validate token and set `authentication-token` in `spring security context authentication`
         filterChain.doFilter(request, response);
     }
 }
