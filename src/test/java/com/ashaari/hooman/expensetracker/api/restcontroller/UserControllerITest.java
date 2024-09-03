@@ -1,6 +1,6 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
-import com.ashaari.hooman.expensetracker.common.dto.SignupRequestDto;
+import com.ashaari.hooman.expensetracker.common.dto.SignUpRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -23,10 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @Testcontainers
-class UsersControllerITest {
+class UserControllerITest {
 
     public static final String USERS_ENDPOINT = EXPENSE_TRACKER_API_V_1 + "/users";
-    public static String SIGNUP_ENDPOINT = USERS_ENDPOINT + "/signup";
+    public static String SIGN_UP_ENDPOINT = USERS_ENDPOINT + "/sign-up";
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -46,20 +46,20 @@ class UsersControllerITest {
 
     @Test
     @SneakyThrows
-    void signup_givenNewValidUser_signupsTheUser() {
+    void signUp_givenNewValidUser_signUpsTheUser() {
         // Given
-        SignupRequestDto signupRequestDto =
-                new SignupRequestDto("Hooman", "12345678", "ashaari.hooman@gmail.com");
+        SignUpRequestDto signUpRequestDto =
+                new SignUpRequestDto("Hooman", "12345678", "ashaari.hooman@gmail.com");
         // Act, Assert
-        this.mockMvc.perform(MockMvcRequestBuilders.post(SIGNUP_ENDPOINT)
+        this.mockMvc.perform(MockMvcRequestBuilders.post(SIGN_UP_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(signupRequestDto)))
+                        .content(objectMapper.writeValueAsString(signUpRequestDto)))
                 .andExpect(status().isCreated());
     }
 
     @Test
-    void signup_giveNewExistingUser_returnsUserNameAlreadyExistsError() {
+    void signUp_giveNewExistingUser_returnsUserNameAlreadyExistsError() {
 
     }
 
