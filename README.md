@@ -65,6 +65,8 @@ Also to this point, I've tried to mostly implement it using TDD approach.
 - Users and security services are getting tested under integration-tests,
   you can add some unit-tests for user and security related services
 
+- Add authorization to the existing security mechanism (authentication has been already added)
+
 ## Licence
 
 This Work is licensed under [GNU General Public License Version 3](LICENSE).
