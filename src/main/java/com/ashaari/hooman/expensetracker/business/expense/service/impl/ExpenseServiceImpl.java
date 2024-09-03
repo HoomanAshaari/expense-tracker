@@ -13,6 +13,7 @@ import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +53,13 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public Optional<ExpenseEntity> findEntity(String id) {
-        return expenseRepository.findById(Long.valueOf(id));
+        // Used String for input as a best-practice,  so we could increase
+        // backward-compatibility. This way we will be able to change type
+        // of the ID easier later.
+        if (NumberUtils.isParsable(id)) {
+            return expenseRepository.findById(Long.valueOf(id));
+        }
+        return Optional.empty();
     }
 
     @Override

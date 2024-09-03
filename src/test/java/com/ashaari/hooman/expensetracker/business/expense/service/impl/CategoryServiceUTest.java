@@ -1,6 +1,7 @@
 package com.ashaari.hooman.expensetracker.business.expense.service.impl;
 
 import com.ashaari.hooman.expensetracker.business.expense.mapper.CategoryMapper;
+import com.ashaari.hooman.expensetracker.business.expense.validator.CategoryBusinessValidator;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
@@ -29,6 +30,9 @@ class CategoryServiceUTest {
     @Spy
     @SuppressWarnings("unused")
     private final CategoryMapper categoryMapper = Mappers.getMapper(CategoryMapper.class);
+    @Mock
+    @SuppressWarnings("unused")
+    private CategoryBusinessValidator categoryBusinessValidator;
     @Mock
     private CategoryRepository categoryRepository;
     @InjectMocks
