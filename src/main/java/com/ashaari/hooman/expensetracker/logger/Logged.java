@@ -1,4 +1,4 @@
-package com.ashaari.hooman.expensetracker.aspect;
+package com.ashaari.hooman.expensetracker.logger;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

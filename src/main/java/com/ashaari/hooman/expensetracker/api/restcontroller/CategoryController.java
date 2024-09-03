@@ -1,10 +1,10 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
-import com.ashaari.hooman.expensetracker.aspect.Logged;
 import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
+import com.ashaari.hooman.expensetracker.logger.Logged;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
