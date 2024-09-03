@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.ashaari.hooman.expensetracker.api.restcontroller.util.RestUtils.CATEGORIES_API_V_1;
+
 @RestController
-@RequestMapping("/expense-tracker/api/v1/categories")
+@RequestMapping(CATEGORIES_API_V_1)
 @RequiredArgsConstructor
 @Tag(name = "Category")
 @Validated
