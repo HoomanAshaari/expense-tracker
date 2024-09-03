@@ -28,7 +28,22 @@ class UsersControllerITest {
     }
 
     @Test
-    void test() {
+    void signUp_givenNewValidUser_signsUp() {
+
+    }
+
+    @Test
+    void signUp_giveNewExistingUser_returnsUserNameAlreadyExistsError() {
+
+    }
+
+    @Test
+    void login_givenValidUserCredential_returnsJwtToken() {
+
+    }
+
+    @Test
+    void login_givenInvalidUserCredential_returns401Error() {
 
     }
 
