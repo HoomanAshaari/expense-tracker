@@ -4,6 +4,7 @@ import com.ashaari.hooman.expensetracker.business.expense.mapper.CategoryMapper;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
+import com.ashaari.hooman.expensetracker.common.exception.client.CategoryAlreadyExistsException;
 import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.CategoryRepository;
@@ -56,6 +57,15 @@ class CategoryServiceUTest {
         assertEquals(transportation.name(), actualEntityPassedToSaveMethod.getName());
         assertEquals(transportation.budget(), actualEntityPassedToSaveMethod.getBudget());
         assertEquals("1", actualResult.id());
+    }
+
+    @Test
+    void addCategory_givenExistingCategoryName_throwsCategoryAlreadyExistsException() {
+        // Given
+        given(categoryRepository.existsByName("Entertainment")).willReturn(true);
+        // Act, Assert
+        assertThrows(CategoryAlreadyExistsException.class, () -> categoryService.addCategory(
+                new AddCategoryRequestDto("Entertainment", BigDecimal.valueOf(1000))));
     }
 
     @Test
