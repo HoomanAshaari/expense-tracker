@@ -1,17 +1,24 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
 import com.ashaari.hooman.expensetracker.common.dto.SignupRequestDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import static com.ashaari.hooman.expensetracker.api.restcontroller.util.ControllerTestUtils.EXPENSE_TRACKER_API_V_1;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -19,7 +26,11 @@ import static com.ashaari.hooman.expensetracker.api.restcontroller.util.Controll
 class UsersControllerITest {
 
     public static final String USERS_ENDPOINT = EXPENSE_TRACKER_API_V_1 + "/users";
-    public static String SIGN_UP_ENDPOINT = USERS_ENDPOINT + "/signup";
+    public static String SIGNUP_ENDPOINT = USERS_ENDPOINT + "/signup";
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Container
     private static final MySQLContainer<?> MYSQL_CONTAINER =
@@ -34,14 +45,21 @@ class UsersControllerITest {
     }
 
     @Test
-    void signUp_givenNewValidUser_signsUp() {
+    @SneakyThrows
+    void signup_givenNewValidUser_signupsTheUser() {
+        // Given
         SignupRequestDto signupRequestDto =
                 new SignupRequestDto("Hooman", "12345678", "ashaari.hooman@gmail.com");
-
+        // Act, Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.post(SIGNUP_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(signupRequestDto)))
+                .andExpect(status().isCreated());
     }
 
     @Test
-    void signUp_giveNewExistingUser_returnsUserNameAlreadyExistsError() {
+    void signup_giveNewExistingUser_returnsUserNameAlreadyExistsError() {
 
     }
 
