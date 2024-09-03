@@ -35,7 +35,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .orElseThrow(CategoryNotFoundException::new);
         ExpenseEntity expenseEntity = expenseMapper.toExpenseEntity(addExpenseRequestDto);
         expenseEntity.setCategory(categoryEntity);
-        expenseEntity = expenseRepository.save(expenseEntity);
+        expenseEntity = saveExpense(expenseEntity);
         return expenseMapper.toAddExpenseResponseDto(expenseEntity);
     }
 
