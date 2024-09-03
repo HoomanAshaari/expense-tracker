@@ -2,6 +2,8 @@ package com.ashaari.hooman.expensetracker.business.user.service.impl;
 
 import com.ashaari.hooman.expensetracker.business.user.service.UserService;
 import com.ashaari.hooman.expensetracker.business.user.validator.UserBusinessValidator;
+import com.ashaari.hooman.expensetracker.common.dto.LoginRequestDto;
+import com.ashaari.hooman.expensetracker.common.dto.LoginResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.SignUpRequestDto;
 import com.ashaari.hooman.expensetracker.model.user.entity.UserEntity;
 import com.ashaari.hooman.expensetracker.model.user.repository.UserRepository;
@@ -31,6 +33,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity saveUser(UserEntity userEntity) {
         return userRepository.save(userEntity);
+    }
+
+    @Override
+    public LoginResponseDto loginUser(LoginRequestDto loginRequestDto) {
+        // Authenticate
+        // Generate token
+        // Return response
+        return null;
     }
 
 }
