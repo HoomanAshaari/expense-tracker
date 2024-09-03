@@ -1,6 +1,8 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
+import com.ashaari.hooman.expensetracker.common.dto.ExceptionDto;
 import com.ashaari.hooman.expensetracker.common.dto.SignUpRequestDto;
+import com.ashaari.hooman.expensetracker.common.exception.client.UsernameAlreadyExistsException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -18,6 +21,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import static com.ashaari.hooman.expensetracker.api.restcontroller.util.ControllerTestUtils.EXPENSE_TRACKER_API_V_1;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -59,8 +63,27 @@ class UserControllerITest {
     }
 
     @Test
+    @SneakyThrows
     void signUp_giveNewExistingUser_returnsUserNameAlreadyExistsError() {
+        // Given
+        SignUpRequestDto john =
+                new SignUpRequestDto("John", "12345678", "John@gmail.com");
+        this.mockMvc.perform(MockMvcRequestBuilders.post(SIGN_UP_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(john)))
+                .andExpect(status().isCreated());
 
+        // Act, Assert
+        MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(SIGN_UP_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(john)))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+        ExceptionDto actualExceptionDto = objectMapper.readValue(
+                actualMvcResult.getResponse().getContentAsString(), ExceptionDto.class);
+        assertEquals(UsernameAlreadyExistsException.class.getSimpleName(), actualExceptionDto.errorCode());
     }
 
     @Test
