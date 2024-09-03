@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
                         // public endpoints
                         .requestMatchers(HttpMethod.POST, USERS_API_V_1 + "/sign-up/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, USERS_API_V_1 + "/login/**").permitAll()
                         // private endpoints
                         .anyRequest().authenticated())
                 .sessionManagement(sessionManagement ->

@@ -1,6 +1,8 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
 import com.ashaari.hooman.expensetracker.business.user.service.UserService;
+import com.ashaari.hooman.expensetracker.common.dto.LoginRequestDto;
+import com.ashaari.hooman.expensetracker.common.dto.LoginResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.SignUpRequestDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,6 +26,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public void signUp(@RequestBody @Valid SignUpRequestDto signUpRequestDto) {
         userService.signUp(signUpRequestDto);
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.CREATED)
+    public LoginResponseDto login(@RequestBody @Valid LoginRequestDto loginRequestDto) {
+        return null;
     }
 
 }

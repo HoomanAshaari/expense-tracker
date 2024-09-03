@@ -2,6 +2,7 @@ package com.ashaari.hooman.expensetracker.api.restcontroller;
 
 import com.ashaari.hooman.expensetracker.common.dto.ExceptionDto;
 import com.ashaari.hooman.expensetracker.common.dto.LoginRequestDto;
+import com.ashaari.hooman.expensetracker.common.dto.LoginResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.SignUpRequestDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.UsernameAlreadyExistsException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +23,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import static com.ashaari.hooman.expensetracker.api.restcontroller.util.ControllerTestUtils.EXPENSE_TRACKER_API_V_1;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -106,6 +108,9 @@ class UserControllerITest {
                         .content(objectMapper.writeValueAsString(johnLoginRequestDto)))
                 .andExpect(status().isOk())
                 .andReturn();
+        LoginResponseDto actualLoginResponseDto = objectMapper.readValue(
+                actualMvcResult.getResponse().getContentAsString(), LoginResponseDto.class);
+        assertThat(actualLoginResponseDto.token()).isNotBlank();
     }
 
     @Test
