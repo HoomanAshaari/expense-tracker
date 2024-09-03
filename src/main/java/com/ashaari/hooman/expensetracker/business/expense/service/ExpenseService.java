@@ -7,6 +7,7 @@ import com.ashaari.hooman.expensetracker.common.dto.ExpenseUpdateDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
 import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
 import jakarta.validation.Valid;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface ExpenseService {
 
@@ -16,6 +17,7 @@ public interface ExpenseService {
      * @param addExpenseRequestDto expense to be added
      * @return added expense id
      */
+    @Transactional
     AddExpenseResponseDto addExpense(AddExpenseRequestDto addExpenseRequestDto);
 
     /**
@@ -33,6 +35,7 @@ public interface ExpenseService {
      * @return found expense, or throws not found exception
      * @throws ExpenseNotFoundException if resource doesn't exist
      */
+    @Transactional(readOnly = true)
     ExpenseDto getExpense(String id);
 
     /**
@@ -50,5 +53,6 @@ public interface ExpenseService {
      * @param expenseUpdateDto fields to be updated
      * @return updated expense
      */
+    @Transactional
     ExpenseDto partialUpdate(@Valid ExpenseUpdateDto expenseUpdateDto);
 }

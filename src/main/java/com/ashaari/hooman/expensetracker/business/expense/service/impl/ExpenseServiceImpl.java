@@ -11,6 +11,7 @@ import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +22,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final CategoryService categoryService;
 
     @Override
+    @Transactional
     public AddExpenseResponseDto addExpense(AddExpenseRequestDto addExpenseRequestDto) {
+
         return null;
     }
 
@@ -31,6 +34,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ExpenseDto getExpense(String id) {
         return null;
     }
@@ -41,6 +45,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    @Transactional
     public ExpenseDto partialUpdate(ExpenseUpdateDto expenseUpdateDto) {
         return null;
     }
