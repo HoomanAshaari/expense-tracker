@@ -18,7 +18,7 @@ import static com.ashaari.hooman.expensetracker.api.restcontroller.util.RestUtil
 @Validated
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("sign-up")
     @ResponseStatus(HttpStatus.CREATED)
