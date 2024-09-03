@@ -4,7 +4,9 @@ import com.ashaari.hooman.expensetracker.business.expense.mapper.ExpenseMapper;
 import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
+import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
+import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
 import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.ExpenseRepository;
@@ -68,7 +70,7 @@ class ExpenseServiceUTest {
     }
 
     @Test
-    void addExpense_givenNotExistingCategoryInRequest_throwsCategoryNotFoundException() {
+    void addExpense_givenNonExistingCategoryInRequest_throwsCategoryNotFoundException() {
         // Given
         AddExpenseRequestDto hadAnIceCream = new AddExpenseRequestDto(
                 BigDecimal.ONE, "Had an ice cream", "50", LocalDateTime.now());
@@ -78,5 +80,27 @@ class ExpenseServiceUTest {
         verify(categoryService).findEntity("50");
     }
 
+    @Test
+    void getExpense_givenExistingExpense_returnsExpense() {
+        // Given
+        ExpenseEntity moviesTicket = ExpenseEntity.builder()
+                .id(1L).amount(BigDecimal.TEN).description("Movies ticket").spentOn(LocalDateTime.now()).build();
+        given(expenseRepository.findById(1L)).willReturn(Optional.of(moviesTicket));
+        // Act
+        ExpenseDto actualExpense = expenseService.getExpense("1");
+        // Assert
+        assertEquals(moviesTicket.getId(), actualExpense.id());
+        assertEquals(moviesTicket.getAmount(), actualExpense.amount());
+        assertEquals(moviesTicket.getDescription(), actualExpense.description());
+        assertEquals(moviesTicket.getSpentOn(), actualExpense.spentOn());
+    }
+
+    @Test
+    void getExpense_givenNonExistingExpense_throwsExpenseNotFoundException() {
+        // Given
+        given(expenseRepository.findById(2L)).willReturn(Optional.empty());
+        // Act, Assert
+        assertThrows(ExpenseNotFoundException.class, () -> expenseService.getExpense("2"));
+    }
 
 }
