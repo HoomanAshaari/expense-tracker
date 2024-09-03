@@ -10,6 +10,7 @@ import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import com.ashaari.hooman.expensetracker.model.expense.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
+    @Transactional
     public AddCategoryResponseDto addCategory(AddCategoryRequestDto addCategoryRequestDto) {
         CategoryEntity categoryEntity = categoryMapper.toEntity(addCategoryRequestDto);
         categoryEntity = saveCategory(categoryEntity);
@@ -33,12 +35,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CategoryDto getCategory(String id) {
         CategoryEntity categoryEntity = findEntity(id).orElseThrow(CategoryNotFoundException::new);
         return categoryMapper.toCategoryDto(categoryEntity);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<CategoryEntity> findEntity(String id) {
         // Used String for input as a best-practice,  so we could increase
         // backward-compatibility. This way we will be able to change type

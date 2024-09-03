@@ -5,6 +5,7 @@ import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
 import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ public interface CategoryService {
      * @param addCategoryRequestDto category to be added
      * @return added category
      */
+    @Transactional
     AddCategoryResponseDto addCategory(AddCategoryRequestDto addCategoryRequestDto);
 
     /**
@@ -33,6 +35,7 @@ public interface CategoryService {
      * @return found expense, or throws not found exception
      * @throws ExpenseNotFoundException if resource doesn't exist
      */
+    @Transactional(readOnly = true)
     CategoryDto getCategory(String id);
 
     /**
@@ -41,6 +44,7 @@ public interface CategoryService {
      * @param id category identifier
      * @return found expense, or nothing (if it doesn't exist)
      */
+    @Transactional(readOnly = true)
     Optional<CategoryEntity> findEntity(String id);
 
 }
