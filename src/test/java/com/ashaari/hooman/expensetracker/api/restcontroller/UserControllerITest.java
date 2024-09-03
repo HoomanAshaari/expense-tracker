@@ -1,6 +1,7 @@
 package com.ashaari.hooman.expensetracker.api.restcontroller;
 
 import com.ashaari.hooman.expensetracker.common.dto.ExceptionDto;
+import com.ashaari.hooman.expensetracker.common.dto.LoginRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.SignUpRequestDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.UsernameAlreadyExistsException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +32,7 @@ class UserControllerITest {
 
     public static final String USERS_ENDPOINT = EXPENSE_TRACKER_API_V_1 + "/users";
     public static String SIGN_UP_ENDPOINT = USERS_ENDPOINT + "/sign-up";
+    public static String LOGIN_ENDPOINT = USERS_ENDPOINT + "/login";
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -87,8 +89,23 @@ class UserControllerITest {
     }
 
     @Test
+    @SneakyThrows
     void login_givenValidUserCredential_returnsJwtToken() {
-
+        // Given
+        SignUpRequestDto johnSignUpRequestDto =
+                new SignUpRequestDto("John", "12345678", "John@gmail.com");
+        LoginRequestDto johnLoginRequestDto = new LoginRequestDto("John", "12345678");
+        this.mockMvc.perform(MockMvcRequestBuilders.post(SIGN_UP_ENDPOINT)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(johnSignUpRequestDto)));
+        // Act, Assert
+        MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(LOGIN_ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(johnLoginRequestDto)))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 
     @Test

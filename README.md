@@ -8,6 +8,8 @@ to manage their expenses efficiently.
 You can register, login and track you daily expenses, categorize them,
 and generate reports to get insights into your spending habits.
 
+Also to this point, I've tried to mostly implement it using TDD approach.
+
 ## 🧩 Features
 
 - **Expense Management**
