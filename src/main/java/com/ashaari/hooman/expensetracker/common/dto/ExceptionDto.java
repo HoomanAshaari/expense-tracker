@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * General object, mostly used in APIs responses, for returning exceptions gracefully.
  */
-public record ExceptionObject(
+public record ExceptionDto(
         @Schema(description = "Codes are unique in this system, so " +
                 "you can make programming decisions based on them.")
         String errorCode,
