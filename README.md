@@ -48,8 +48,7 @@ and generate reports to get insights into your spending habits.
 ## 🔧 Installation
 
 1) Go to [/setup-scripts](setup-scripts)
-2) Use `./start-service`  and `./stop-service` to start and stop services 
-
+2) Use `./start-service`  and `./stop-service` to start and stop services
 
 ## 📔 How to use?
 
@@ -58,7 +57,7 @@ your localhost: http://localhost:8080/api/swagger-ui. Details about each
 endpoint are provided in the OpenAPI documentation for you, but I'm going
 to list main steps that you should take to be able to use the app.
 
-1) First you should create an account using
+1) First, you should create an account using
    [sign-up API](http://localhost:8080/expense-tracker/api/v1/users/sign-up).
 
 2) Now that you have a user signed-up, you can log in using
@@ -77,21 +76,24 @@ to list main steps that you should take to be able to use the app.
 
 ## Technical Decisions
 
-- For now, I only made used docker for running MySQL,
+- For now, I only used docker for running MySQL,
   one reason for that is because there is a challenge with making the current
- project dockerized (docker inside docker), because of the use of testcontainers. 
- Later we may address it.
-- I have used Spring boot 3 and Java 21, which are the LTS versions of them at this point.
-- Spring security with a combination of JWT has been used, which provides a
+  project dockerized (docker inside docker), because of the use of testcontainers.
+  Later we may address it.
+- I have used **Spring boot 3 and Java 21**, which are the LTS versions of them at this point.
+- **SLF4J** has been used for logging events (for now we're only using console appender), also
+  there is a custom logger aspect, logging input/outputs of controllers (except for users which are carrying sensitive
+  data)
+- **Spring security with a combination of JWT** has been used, which provides a
   stateless secure mechanism for authentication and authorization. (although
   authorization is not added yet.)
-- Spring Data JPA has been used because of its great features for the accessing database.
-- MySQL database has been chosen, since it's a great performing open source SQL solution.
+- **Spring Data JPA** has been used because of its great features for the accessing database.
+- **MySQL database** has been chosen since it's a great performing open source SQL solution.
 
 
-- I've tried to mostly implement main services using TDD approach:
-  - Some integration-tests have been added for authentication mechanism testing.
-  - Some unit tests have been added for main resources APIs and services. 
+- I've tried to mostly implement main services using **TDD** approach:
+    - Some **integration-tests** have been added for authentication mechanism testing.
+    - Some **unit tests** have been added for main resources APIs and services.
 
 ## TODOs:
 
