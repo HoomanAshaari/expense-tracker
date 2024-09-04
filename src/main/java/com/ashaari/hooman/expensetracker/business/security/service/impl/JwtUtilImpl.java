@@ -36,11 +36,6 @@ public class JwtUtilImpl implements JwtUtil {
         return expiration.before(new Date());
     }
 
-    private SecretKey getSecretKey() {
-        byte[] secretBytes = Base64.getDecoder().decode(secretKey.getBytes(StandardCharsets.UTF_8));
-        return new SecretKeySpec(secretBytes, "HmacSHA256");
-    }
-
     @Override
     public String extractUsername(String token) {
         Claims claims = getTokenClaims(token);
@@ -54,6 +49,7 @@ public class JwtUtilImpl implements JwtUtil {
                 .subject(username)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plus(expirationMinutes, ChronoUnit.MINUTES)))
+                .signWith(getSecretKey())
                 .compact();
     }
 
@@ -64,6 +60,11 @@ public class JwtUtilImpl implements JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
 
+    }
+
+    private SecretKey getSecretKey() {
+        byte[] secretBytes = Base64.getDecoder().decode(secretKey.getBytes(StandardCharsets.UTF_8));
+        return new SecretKeySpec(secretBytes, "HmacSHA256");
     }
 
 }
