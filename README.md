@@ -47,10 +47,9 @@ and generate reports to get insights into your spending habits.
 
 ## 🔧 Installation
 
-1) Set up a MySQL server
-2) Make sure scripts in [db directory](src/main/resources/db) get
-   executed in your database environment (flyway dependency will
-   be added soon to make this process easier)
+1) Go to [/setup-scripts](setup-scripts)
+2) Use `./start-service`  and `./stop-service` to start and stop services 
+
 
 ## 📔 How to use?
 
@@ -78,6 +77,10 @@ to list main steps that you should take to be able to use the app.
 
 ## Technical Decisions
 
+- For now, I only made used docker for running MySQL,
+  one reason for that is because there is a challenge with making the current
+ project dockerized (docker inside docker), because of the use of testcontainers. 
+ Later we may address it.
 - I have used Spring boot 3 and Java 21, which are the LTS versions of them at this point.
 - Spring security with a combination of JWT has been used, which provides a
   stateless secure mechanism for authentication and authorization. (although
