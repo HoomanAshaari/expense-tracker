@@ -8,12 +8,16 @@ import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseUpdateDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.CategoryNotFoundException;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseNotFoundException;
+import com.ashaari.hooman.expensetracker.filter.JwtAuthFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -28,7 +32,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ExpenseController.class)
+@WebMvcTest(
+        value = ExpenseController.class,
+        excludeAutoConfiguration = SecurityAutoConfiguration.class,
+        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = JwtAuthFilter.class))
 class ExpenseControllerUTest {
 
     public static final String EXPENSES_ENDPOINT = ControllerTestUtils.EXPENSE_TRACKER_API_V_1 + "/expenses";
