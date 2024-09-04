@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +18,11 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     private final UserService userService;
 
     @Override
-    public CategoryExpenseStatsDto getCategoryExpenseStatistics(LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo) {
-        return null;
+    public List<CategoryExpenseStatsDto> getCategoryExpenseStatistics(LocalDateTime dateTimeFrom,
+                                                                      LocalDateTime dateTimeTo) {
+        String username = userService.getCurrentUsername();
+        return expenseRepository.findCategoryExpenseStatsByDateTimeRange(
+                dateTimeFrom, dateTimeTo, username);
     }
+
 }
