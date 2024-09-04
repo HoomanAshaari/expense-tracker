@@ -1,5 +1,6 @@
 package com.ashaari.hooman.expensetracker.config;
 
+import com.ashaari.hooman.expensetracker.business.security.service.impl.ExpenseTrackerUserDetailsService;
 import com.ashaari.hooman.expensetracker.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,8 +25,7 @@ import static com.ashaari.hooman.expensetracker.api.restcontroller.util.RestUtil
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
-    private final UserDetailsService userDetailsService;
-
+    private final ExpenseTrackerUserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
