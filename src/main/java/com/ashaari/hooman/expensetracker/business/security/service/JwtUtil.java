@@ -14,7 +14,6 @@ public interface JwtUtil {
      */
     boolean validateToken(String token, UserDetails userDetails);
 
-
     /**
      * Checks whether is expired or not
      *

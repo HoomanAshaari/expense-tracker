@@ -8,6 +8,8 @@ import com.ashaari.hooman.expensetracker.common.dto.SignUpRequestDto;
 import com.ashaari.hooman.expensetracker.model.user.entity.UserEntity;
 import com.ashaari.hooman.expensetracker.model.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserBusinessValidator userValidator;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
     @Transactional
     @Override
@@ -38,6 +41,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public LoginResponseDto loginUser(LoginRequestDto loginRequestDto) {
         // Authenticate
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequestDto.username(), loginRequestDto.password()));
         // Generate token
         // Return response
         return null;
