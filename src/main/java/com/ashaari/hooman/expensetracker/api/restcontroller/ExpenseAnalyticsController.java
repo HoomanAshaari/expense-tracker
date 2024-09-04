@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static com.ashaari.hooman.expensetracker.api.restcontroller.util.RestUtils.EXPENSE_ANALYTICS_API_V_1;
 
@@ -29,15 +29,15 @@ public class ExpenseAnalyticsController {
 
     @GetMapping("/category-expenses")
     @Operation(description =
-            "Returns statistics about money spent in each category, in the given time range")
+            "Returns statistics about money spent in each category, within the given date range")
     public CategoryExpenseStatsDto getCategoryExpenseStatistics(
             @RequestParam("dateFrom")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            LocalDate dateFrom,
+            LocalDateTime dateTimeFrom,
             @RequestParam("dateTo")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            LocalDate dateTo) {
-        return null;
+            LocalDateTime dateTimeTo) {
+        return analyticsService.getCategoryExpenseStatistics(dateTimeFrom, dateTimeTo);
     }
 
 }
