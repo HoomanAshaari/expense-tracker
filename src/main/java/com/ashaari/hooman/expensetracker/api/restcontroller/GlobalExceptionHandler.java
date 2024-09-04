@@ -2,12 +2,12 @@ package com.ashaari.hooman.expensetracker.api.restcontroller;
 
 import com.ashaari.hooman.expensetracker.common.dto.ExceptionDto;
 import com.ashaari.hooman.expensetracker.common.exception.client.ExpenseTrackerClientException;
-import com.ashaari.hooman.expensetracker.common.exception.client.InvalidCredentialsException;
 import com.ashaari.hooman.expensetracker.common.exception.client.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,9 +27,9 @@ public class GlobalExceptionHandler {
         return getExceptionObject(ex);
     }
 
-    @ExceptionHandler(value = InvalidCredentialsException.class)
+    @ExceptionHandler(value = BadCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ExceptionDto handleInvalidCredentialsException(InvalidCredentialsException ex) {
+    public ExceptionDto handleBadCredentialsException(BadCredentialsException ex) {
         return getExceptionObject(ex);
     }
 

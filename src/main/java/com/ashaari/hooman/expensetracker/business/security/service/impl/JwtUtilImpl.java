@@ -43,6 +43,11 @@ public class JwtUtilImpl implements JwtUtil {
         return claims.getSubject();
     }
 
+    @Override
+    public String generateToken(String username) {
+        return "";
+    }
+
     private Claims getTokenClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getSecretKey())

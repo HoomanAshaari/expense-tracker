@@ -3,9 +3,9 @@ package com.ashaari.hooman.expensetracker.business.user.service;
 import com.ashaari.hooman.expensetracker.common.dto.LoginRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.LoginResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.SignUpRequestDto;
-import com.ashaari.hooman.expensetracker.common.exception.client.InvalidCredentialsException;
 import com.ashaari.hooman.expensetracker.common.exception.client.UsernameAlreadyExistsException;
 import com.ashaari.hooman.expensetracker.model.user.entity.UserEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface UserService {
@@ -33,7 +33,7 @@ public interface UserService {
      *
      * @param loginRequestDto user-info to be logged in
      * @return saved user
-     * @throws InvalidCredentialsException if given credentials are not valid
+     * @throws BadCredentialsException if given credentials are not valid
      */
     @Transactional
     LoginResponseDto loginUser(LoginRequestDto loginRequestDto);

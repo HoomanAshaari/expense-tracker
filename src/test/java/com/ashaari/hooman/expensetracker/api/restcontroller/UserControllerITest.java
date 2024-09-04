@@ -4,7 +4,6 @@ import com.ashaari.hooman.expensetracker.common.dto.ExceptionDto;
 import com.ashaari.hooman.expensetracker.common.dto.LoginRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.LoginResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.SignUpRequestDto;
-import com.ashaari.hooman.expensetracker.common.exception.client.InvalidCredentialsException;
 import com.ashaari.hooman.expensetracker.common.exception.client.UsernameAlreadyExistsException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -128,7 +128,7 @@ class UserControllerITest {
                 .andReturn();
         ExceptionDto actualExceptionDto = objectMapper.readValue(
                 actualMvcResult.getResponse().getContentAsString(), ExceptionDto.class);
-        assertEquals(InvalidCredentialsException.class.getSimpleName(), actualExceptionDto.errorCode());
+        assertEquals(BadCredentialsException.class.getSimpleName(), actualExceptionDto.errorCode());
     }
 
 }

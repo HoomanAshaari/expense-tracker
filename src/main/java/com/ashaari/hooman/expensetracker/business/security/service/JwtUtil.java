@@ -1,5 +1,6 @@
 package com.ashaari.hooman.expensetracker.business.security.service;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface JwtUtil {
@@ -28,5 +29,13 @@ public interface JwtUtil {
      * @param token from which username should get extracted
      */
     String extractUsername(String token);
+
+    /**
+     * Generates a token based on given username
+     *
+     * @param username to be used for token generation
+     * @return generated token
+     */
+    String generateToken(@NotBlank String username);
 
 }
