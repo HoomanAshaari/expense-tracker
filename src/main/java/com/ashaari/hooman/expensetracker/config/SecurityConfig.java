@@ -48,16 +48,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    AuthenticationManager authenticationManager) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable) // Because we are going to be stateless
+                .cors(AbstractHttpConfigurer::disable) // Because we are going to be stateless
                 .authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
                         // public endpoints
                         .requestMatchers(HttpMethod.POST, USERS_API_V_1 + "/sign-up/**").permitAll()
                         .requestMatchers(HttpMethod.POST, USERS_API_V_1 + "/login/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/swagger-ui/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/openapi/**").permitAll()
                         // private endpoints
                         .anyRequest().authenticated())
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationManager(authenticationManager)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
