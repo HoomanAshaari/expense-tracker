@@ -14,6 +14,15 @@ public interface JwtUtil {
      */
     boolean validateToken(String token, UserDetails userDetails);
 
+
+    /**
+     * Checks whether is expired or not
+     *
+     * @param token to be checked
+     * @return true if expiration time has passed, otherwise false
+     */
+    boolean isTokenExpired(String token);
+
     /**
      * Extracts username from given token
      *

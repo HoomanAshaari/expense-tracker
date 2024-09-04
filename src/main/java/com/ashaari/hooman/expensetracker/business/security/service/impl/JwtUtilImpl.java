@@ -9,7 +9,13 @@ public class JwtUtilImpl implements JwtUtil {
 
     @Override
     public boolean validateToken(String token, UserDetails userDetails) {
-        return false;
+        String username = extractUsername(token);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    @Override
+    public boolean isTokenExpired(String token) {
+        return true;
     }
 
     @Override
