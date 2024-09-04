@@ -39,7 +39,8 @@ public class JwtUtilImpl implements JwtUtil {
 
     @Override
     public String extractUsername(String token) {
-        return "";
+        Claims claims = getTokenClaims(token);
+        return claims.getSubject();
     }
 
     private Claims getTokenClaims(String token) {
