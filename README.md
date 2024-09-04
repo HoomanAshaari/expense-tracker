@@ -55,6 +55,27 @@ Also to this point, I've tried to mostly implement it using TDD approach.
 
 ## 📔 How to use?
 
+When you run the program, you can access a swagger endpoint at this url in
+your localhost: http://localhost:8080/api/swagger-ui. Details about each
+endpoint are provided in the OpenAPI documentation for you, but I'm going
+to list main steps that you should take to be able to use the app.
+
+1) First you should create an account using
+   [sign-up API](http://localhost:8080/expense-tracker/api/v1/users/sign-up).
+
+2) Now that you have a user signed-up, you can log in using
+   [login API](http://localhost:8080/expense-tracker/api/v1/users/login),
+   which will provide you a JWT token that you should keep and send in
+   **Authorization Header** of your later requests.
+
+   (You can use swagger's Authorize feature, which will make authentication process easier for you)
+
+3) It's time to add some categories utilizing
+   [Category APIs](http://localhost:8080/expense-tracker/api/v1/categories).
+
+4) Then you can add your expenses to each category using
+   [Expense APIs](http://localhost:8080/expense-tracker/api/v1/expenses).
+
 ## TODOs:
 
 - Add support for timezones
