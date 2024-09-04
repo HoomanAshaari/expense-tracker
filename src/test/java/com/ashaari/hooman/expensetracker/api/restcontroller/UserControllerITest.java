@@ -71,19 +71,19 @@ class UserControllerITest {
     @SneakyThrows
     void signUp_giveNewExistingUser_returnsUserNameAlreadyExistsError() {
         // Given
-        SignUpRequestDto john =
-                new SignUpRequestDto("John", "12345678", "John@gmail.com");
+        SignUpRequestDto bob =
+                new SignUpRequestDto("bob", "12345678", "bob@gmail.com");
         this.mockMvc.perform(MockMvcRequestBuilders.post(SIGN_UP_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(john)))
+                        .content(objectMapper.writeValueAsString(bob)))
                 .andExpect(status().isCreated());
 
         // Act, Assert
         MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(SIGN_UP_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(john)))
+                        .content(objectMapper.writeValueAsString(bob)))
                 .andExpect(status().is4xxClientError())
                 .andReturn();
         ExceptionDto actualExceptionDto = objectMapper.readValue(
@@ -118,12 +118,12 @@ class UserControllerITest {
     @SneakyThrows
     void login_givenInvalidUserCredentials_returns401Error() {
         // Given
-        LoginRequestDto johnLoginRequestDto = new LoginRequestDto("John", "12345678");
+        LoginRequestDto aliceLoginRequestDto = new LoginRequestDto("Alice", "12345678");
         // Act, Assert
         MvcResult actualMvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post(LOGIN_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(johnLoginRequestDto)))
+                        .content(objectMapper.writeValueAsString(aliceLoginRequestDto)))
                 .andExpect(status().isUnauthorized())
                 .andReturn();
         ExceptionDto actualExceptionDto = objectMapper.readValue(
