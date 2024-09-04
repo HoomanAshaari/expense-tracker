@@ -2,6 +2,7 @@ package com.ashaari.hooman.expensetracker.business.expense.service.impl;
 
 import com.ashaari.hooman.expensetracker.business.expense.mapper.ExpenseMapper;
 import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
+import com.ashaari.hooman.expensetracker.business.user.service.UserService;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
@@ -37,6 +38,8 @@ class ExpenseServiceUTest {
     private CategoryService categoryService;
     @Mock
     private ExpenseRepository expenseRepository;
+    @Mock
+    private UserService userService;
     @InjectMocks
     private ExpenseServiceImpl expenseService;
 
@@ -48,6 +51,7 @@ class ExpenseServiceUTest {
         // Given
         AddExpenseRequestDto hadAnIceCream = new AddExpenseRequestDto(
                 BigDecimal.ONE, "Had an ice cream", "5", LocalDateTime.now());
+        given(userService.getCurrentUsername()).willReturn("current-username");
         when(expenseRepository.save(any())).thenAnswer(invocationOnMock -> {
             invocationOnMock.getArgument(0);
             Object arg = invocationOnMock.getArgument(0);
@@ -67,6 +71,7 @@ class ExpenseServiceUTest {
         assertEquals(5, actualEntityPassedToSaveMethod.getCategory().getId());
         assertEquals(hadAnIceCream.amount(), actualEntityPassedToSaveMethod.getAmount());
         assertEquals(hadAnIceCream.description(), actualEntityPassedToSaveMethod.getDescription());
+        assertEquals("current-username", actualEntityPassedToSaveMethod.getUsername());
     }
 
     @Test

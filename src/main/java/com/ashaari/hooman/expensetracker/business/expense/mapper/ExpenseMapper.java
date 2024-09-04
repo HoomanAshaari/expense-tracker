@@ -7,12 +7,14 @@ import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import com.ashaari.hooman.expensetracker.model.expense.entity.ExpenseEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
 public interface ExpenseMapper {
 
-    ExpenseEntity toExpenseEntity(AddExpenseRequestDto addExpenseRequestDto);
+    void updateEntity(@MappingTarget ExpenseEntity expenseEntity,
+                               AddExpenseRequestDto addExpenseRequestDto);
 
     AddExpenseResponseDto toAddExpenseResponseDto(ExpenseEntity expenseEntity);
 

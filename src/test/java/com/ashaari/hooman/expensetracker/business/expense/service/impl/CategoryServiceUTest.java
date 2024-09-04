@@ -2,6 +2,7 @@ package com.ashaari.hooman.expensetracker.business.expense.service.impl;
 
 import com.ashaari.hooman.expensetracker.business.expense.mapper.CategoryMapper;
 import com.ashaari.hooman.expensetracker.business.expense.validator.CategoryBusinessValidator;
+import com.ashaari.hooman.expensetracker.business.user.service.UserService;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
@@ -35,6 +36,8 @@ class CategoryServiceUTest {
     private CategoryBusinessValidator categoryBusinessValidator;
     @Mock
     private CategoryRepository categoryRepository;
+    @Mock
+    private UserService userService;
     @InjectMocks
     private CategoryServiceImpl categoryService;
 
@@ -52,6 +55,7 @@ class CategoryServiceUTest {
             categoryEntity.setId(1L);
             return categoryEntity;
         });
+        given(userService.getCurrentUsername()).willReturn("current-username");
         // Act
         AddCategoryResponseDto actualResult = categoryService.addCategory(transportation);
         // Assert
@@ -59,6 +63,7 @@ class CategoryServiceUTest {
         CategoryEntity actualEntityPassedToSaveMethod = categoryEntityArgumentCaptor.getValue();
         assertEquals(transportation.name(), actualEntityPassedToSaveMethod.getName());
         assertEquals(transportation.budget(), actualEntityPassedToSaveMethod.getBudget());
+        assertEquals("current-username", actualEntityPassedToSaveMethod.getUsername());
         assertEquals("1", actualResult.id());
     }
 

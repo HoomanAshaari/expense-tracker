@@ -3,6 +3,7 @@ package com.ashaari.hooman.expensetracker.business.expense.service.impl;
 import com.ashaari.hooman.expensetracker.business.expense.mapper.ExpenseMapper;
 import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.business.expense.service.ExpenseService;
+import com.ashaari.hooman.expensetracker.business.user.service.UserService;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddExpenseResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.ExpenseDto;
@@ -26,6 +27,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseMapper expenseMapper;
     private final ExpenseRepository expenseRepository;
     private final CategoryService categoryService;
+    private final UserService userService;
 
     @Override
     @Transactional
@@ -33,7 +35,10 @@ public class ExpenseServiceImpl implements ExpenseService {
         CategoryEntity categoryEntity = categoryService
                 .findEntity(addExpenseRequestDto.categoryId())
                 .orElseThrow(CategoryNotFoundException::new);
-        ExpenseEntity expenseEntity = expenseMapper.toExpenseEntity(addExpenseRequestDto);
+        ExpenseEntity expenseEntity = new ExpenseEntity();
+        expenseMapper.updateEntity(expenseEntity, addExpenseRequestDto);
+        String username = userService.getCurrentUsername();
+        expenseEntity.setUsername(username);
         expenseEntity.setCategory(categoryEntity);
         expenseEntity = saveExpense(expenseEntity);
         return expenseMapper.toAddExpenseResponseDto(expenseEntity);
