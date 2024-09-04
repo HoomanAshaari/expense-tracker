@@ -22,7 +22,7 @@ import static com.ashaari.hooman.expensetracker.api.restcontroller.util.RestUtil
 @RequestMapping(EXPENSE_ANALYTICS_API_V_1)
 @RequiredArgsConstructor
 @Logged
-@Tag(name = "Analytics")
+@Tag(name = "Expense Analytics")
 @Validated
 public class ExpenseAnalyticsController {
 

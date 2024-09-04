@@ -74,6 +74,9 @@ to list main steps that you should take to be able to use the app.
 4) Then you can add your expenses to each category using
    [Expense APIs](http://localhost:8080/expense-tracker/api/v1/expenses).
 
+5) There is an `analytics API` at [Expense Analytics APIs](http://localhost:8080/expense-tracker/api/v1/analytics)
+   which gives you some insight about the money you spent in a specific time range.
+
 ## Technical Decisions
 
 - For now, I only used docker for running MySQL,
@@ -106,6 +109,8 @@ to list main steps that you should take to be able to use the app.
   you can add some unit-tests for user and security related services
 
 - Add authorization to the existing security mechanism (authentication has been already added)
+
+- Add more APIs, analytics services, and financial goal setting services
 
 ## Licence
 
