@@ -4,6 +4,7 @@ import com.ashaari.hooman.expensetracker.business.expense.service.AnalyticsServi
 import com.ashaari.hooman.expensetracker.common.dto.CategoryExpenseStatsDto;
 import com.ashaari.hooman.expensetracker.logger.Logged;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,11 +33,13 @@ public class ExpenseAnalyticsController {
     @Operation(description =
             "Returns statistics about money spent in each category, within the given date range")
     public List<CategoryExpenseStatsDto> getCategoryExpenseStatistics(
-            @RequestParam("dateTimeTo")
+            @RequestParam("dateTimeFrom")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @Parameter(example = "2024-09-01T19:52:45.150Z")
             LocalDateTime dateTimeFrom,
             @RequestParam("dateTimeTo")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @Parameter(example = "2024-09-04T19:52:45.150Z")
             LocalDateTime dateTimeTo) {
         return analyticsService.getCategoryExpenseStatistics(dateTimeFrom, dateTimeTo);
     }
