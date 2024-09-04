@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
 
@@ -18,6 +20,8 @@ public class JwtUtilImpl implements JwtUtil {
 
     @Value("${expense-tracker.jwt.secret}")
     private String secretKey;
+    @Value("${expense-tracker.jwt.expiration-minutes}")
+    private int expirationMinutes;
 
     @Override
     public boolean validateToken(String token, UserDetails userDetails) {
@@ -45,7 +49,12 @@ public class JwtUtilImpl implements JwtUtil {
 
     @Override
     public String generateToken(String username) {
-        return "";
+        Instant now = Instant.now();
+        return Jwts.builder()
+                .subject(username)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now.plus(expirationMinutes, ChronoUnit.MINUTES)))
+                .compact();
     }
 
     private Claims getTokenClaims(String token) {
