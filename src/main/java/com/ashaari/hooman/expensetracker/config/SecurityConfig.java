@@ -47,8 +47,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    AuthenticationManager authenticationManager) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable) // Because we are going to be stateless
-                .cors(AbstractHttpConfigurer::disable) // Because we are going to be stateless
+        return http
+                .csrf(AbstractHttpConfigurer::disable) // Because we are going to be stateless
+                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
                         // public endpoints
                         .requestMatchers(HttpMethod.POST, USERS_API_V_1 + "/sign-up/**").permitAll()

@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Locale;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -30,8 +32,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void signUp(SignUpRequestDto signUpRequestDto) {
+        String username = signUpRequestDto.username().toLowerCase(Locale.ENGLISH);
         userValidator.validate(signUpRequestDto);
-        UserEntity userEntity = new UserEntity(signUpRequestDto.username(), signUpRequestDto.email());
+        UserEntity userEntity = new UserEntity(username, signUpRequestDto.email());
         String hashedPassword = passwordEncoder.encode(signUpRequestDto.password());
         userEntity.setPassword(hashedPassword);
         saveUser(userEntity);
@@ -44,12 +47,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginResponseDto loginUser(LoginRequestDto loginRequestDto) {
+        String username = loginRequestDto.username().toLowerCase(Locale.ENGLISH);
         // Authenticate
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequestDto.username(), loginRequestDto.password()));
+                new UsernamePasswordAuthenticationToken(username, loginRequestDto.password()));
         // Generate token
         if (authentication.isAuthenticated()) {
-            String token = jwtUtil.generateToken(loginRequestDto.username());
+            String token = jwtUtil.generateToken(username);
             // Return response
             return new LoginResponseDto(token);
         }
