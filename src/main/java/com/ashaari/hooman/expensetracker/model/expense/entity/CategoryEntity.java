@@ -32,6 +32,10 @@ public class CategoryEntity {
     @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<ExpenseEntity> expenses;
 
+    // We avoided adding direct relation with UserEntity which has sensitive data
+    @Column(nullable = false)
+    private String username;
+
     public void addExpense(ExpenseEntity expense) {
         if (this.expenses == null) {
             this.expenses = new ArrayList<>();

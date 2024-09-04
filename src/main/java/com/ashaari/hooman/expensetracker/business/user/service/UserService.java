@@ -37,4 +37,11 @@ public interface UserService {
      */
     @Transactional
     LoginResponseDto loginUser(LoginRequestDto loginRequestDto);
+
+
+    /**
+     * Reruns currently logged-in user's username
+     */
+    String getCurrentUsername();
+
 }

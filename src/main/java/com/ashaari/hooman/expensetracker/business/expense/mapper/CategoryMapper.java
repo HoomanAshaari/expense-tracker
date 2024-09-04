@@ -5,11 +5,13 @@ import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
 import com.ashaari.hooman.expensetracker.model.expense.entity.CategoryEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
-    CategoryEntity toEntity(AddCategoryRequestDto addCategoryRequestDto);
+    void updateEntity(@MappingTarget CategoryEntity category,
+                      AddCategoryRequestDto addCategoryRequestDto);
 
     AddCategoryResponseDto toAddCategoryResponseDto(CategoryEntity categoryEntity);
 

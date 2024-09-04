@@ -3,6 +3,7 @@ package com.ashaari.hooman.expensetracker.business.expense.service.impl;
 import com.ashaari.hooman.expensetracker.business.expense.mapper.CategoryMapper;
 import com.ashaari.hooman.expensetracker.business.expense.service.CategoryService;
 import com.ashaari.hooman.expensetracker.business.expense.validator.CategoryBusinessValidator;
+import com.ashaari.hooman.expensetracker.business.user.service.UserService;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryRequestDto;
 import com.ashaari.hooman.expensetracker.common.dto.AddCategoryResponseDto;
 import com.ashaari.hooman.expensetracker.common.dto.CategoryDto;
@@ -23,12 +24,16 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final CategoryBusinessValidator categoryBusinessValidator;
+    private final UserService userService;
 
     @Override
     @Transactional
     public AddCategoryResponseDto addCategory(AddCategoryRequestDto addCategoryRequestDto) {
         categoryBusinessValidator.validate(addCategoryRequestDto);
-        CategoryEntity categoryEntity = categoryMapper.toEntity(addCategoryRequestDto);
+        CategoryEntity categoryEntity = new CategoryEntity();
+        String username = userService.getCurrentUsername();
+        categoryEntity.setUsername(username);
+        categoryMapper.updateEntity(categoryEntity, addCategoryRequestDto);
         categoryEntity = saveCategory(categoryEntity);
         return categoryMapper.toAddCategoryResponseDto(categoryEntity);
     }

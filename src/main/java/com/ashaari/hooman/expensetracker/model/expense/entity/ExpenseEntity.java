@@ -29,6 +29,10 @@ public class ExpenseEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
+    // We avoided adding direct relation with UserEntity which has sensitive data
+    @Column(nullable = false)
+    private String username;
+
     private LocalDateTime spentOn;
 
     @PrePersist
