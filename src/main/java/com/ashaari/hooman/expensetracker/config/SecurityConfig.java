@@ -46,7 +46,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   AuthenticationManager authenticationManager) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable) // Because we are going to be stateless
                 .authorizeHttpRequests(authorizeHttpRequest -> authorizeHttpRequest
                         // public endpoints
@@ -57,6 +58,7 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationManager(authenticationManager)
                 .build();
     }
 
