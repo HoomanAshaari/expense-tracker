@@ -95,8 +95,11 @@ class ExpenseServiceUTest {
                 .amount(BigDecimal.TEN)
                 .category(category)
                 .description("Movies ticket")
+                .username("current-username")
                 .spentOn(LocalDateTime.now()).build();
-        given(expenseRepository.findById(1L)).willReturn(Optional.of(moviesTicket));
+        given(expenseRepository.findByIdAndUsername(1L, "current-username"))
+                .willReturn(Optional.of(moviesTicket));
+        given(userService.getCurrentUsername()).willReturn("current-username");
         // Act
         ExpenseDto actualExpense = expenseService.getExpense("1");
         // Assert
@@ -110,7 +113,8 @@ class ExpenseServiceUTest {
     @Test
     void getExpense_givenNonExistingExpense_throwsExpenseNotFoundException() {
         // Given
-        given(expenseRepository.findById(2L)).willReturn(Optional.empty());
+        given(userService.getCurrentUsername()).willReturn("current-username");
+        given(expenseRepository.findByIdAndUsername(2L, "current-username")).willReturn(Optional.empty());
         // Act, Assert
         assertThrows(ExpenseNotFoundException.class, () -> expenseService.getExpense("2"));
     }

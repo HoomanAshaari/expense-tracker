@@ -72,11 +72,13 @@ class CategoryServiceUTest {
         // Given
         CategoryEntity expectedCategory = CategoryEntity.builder()
                 .id(1L).name("Entertainment").budget(BigDecimal.valueOf(1000)).build();
-        given(categoryRepository.findById(1L)).willReturn(Optional.of(expectedCategory));
+        given(userService.getCurrentUsername()).willReturn("current-username");
+        given(categoryRepository.findByIdAndUsername(1L, "current-username"))
+                .willReturn(Optional.of(expectedCategory));
         // Act
         CategoryDto actualCategory = categoryService.getCategory("1");
         // Assert
-        verify(categoryRepository).findById(1L);
+        verify(categoryRepository).findByIdAndUsername(1L, "current-username");
         assertEquals("1", actualCategory.id());
         assertEquals(expectedCategory.getName(), actualCategory.name());
         assertEquals(expectedCategory.getBudget(), actualCategory.budget());
@@ -85,7 +87,9 @@ class CategoryServiceUTest {
     @Test
     void getCategory_givenNotExistingCategoryId_throwsCategoryNotFoundException() {
         // Given
-        given(categoryRepository.findById(2L)).willReturn(Optional.empty());
+        given(userService.getCurrentUsername()).willReturn("current-username");
+        given(categoryRepository.findByIdAndUsername(2L, "current-username"))
+                .willReturn(Optional.empty());
         // Act, Assert
         assertThrows(CategoryNotFoundException.class, () -> categoryService.getCategory("2"));
     }

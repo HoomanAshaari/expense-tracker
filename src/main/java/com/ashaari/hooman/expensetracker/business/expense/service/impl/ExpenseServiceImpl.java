@@ -62,7 +62,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         // backward-compatibility. This way we will be able to change type
         // of the ID easier later.
         if (NumberUtils.isParsable(id)) {
-            return expenseRepository.findById(Long.valueOf(id));
+            return expenseRepository.findByIdAndUsername(Long.valueOf(id), userService.getCurrentUsername());
         }
         return Optional.empty();
     }

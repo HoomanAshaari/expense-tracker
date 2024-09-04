@@ -40,6 +40,7 @@ public interface CategoryService {
 
     /**
      * Finds category by ID.
+     * NOTE: This method takes logged-in user into account
      *
      * @param id category identifier
      * @return found expense, or nothing (if it doesn't exist)

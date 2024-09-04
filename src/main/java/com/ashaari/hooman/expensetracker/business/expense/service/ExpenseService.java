@@ -42,6 +42,7 @@ public interface ExpenseService {
 
     /**
      * Finds expense by ID.
+     * NOTE: This method takes logged-in user into account
      *
      * @param id expense identifier
      * @return found expense, or an empty optional
